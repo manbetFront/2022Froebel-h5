@@ -1,0 +1,22 @@
+{
+  "opennum": "剩余开礼盒次数",
+  "singledep": "单笔存款",
+  "gainchance": "即可获得一次开礼盒机会",
+  "getaward": "奖励在福利中心领取",
+
+  "grandbet": "累计有效投注",
+  "granddep": "累计存款金额",
+  "getmeet": "满足后可获得",
+  "opendrew": "次开礼盒次数",
+
+  "incentive": "奖励",
+  "handsel": "彩金",
+
+  "opengold": "剩余砸金蛋次数",
+  "goldchance": "即可获得一次砸金蛋机会",
+  "threeflow": "倍流水",
+  "failgold": "次砸蛋机会",
+
+  "drewover": "开礼盒机会用完啦",
+  "eggover": "砸金蛋机会用完啦"
+}
