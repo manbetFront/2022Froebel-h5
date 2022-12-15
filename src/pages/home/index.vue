@@ -2,21 +2,6 @@
   <div id="app">
     <h3 @click="isShow = true">点击</h3>
 
-    <!-- <div class="dialog-wrap">
-      <div class="dialog-cover" v-if="isShow" @click="isShow = false"></div>
-      <transition name="opacity">
-        <div class="dialog-content" v-if="isShow">
-          <iframe
-            id="myFrame"
-            src="http://192.168.1.103:8000/goldegg-draw"
-            width="100%"
-            height="100%"
-            style="background-color:transparent"
-          ></iframe>
-        </div>
-      </transition>
-    </div> -->
-
     <iframe v-if="isShow" id="myFrame" :src="url"></iframe>
   </div>
 </template>
@@ -29,9 +14,7 @@ export default {
       isShow: false,
       // url:
       //   "https://christmas-draw-h5.kgtindok.com/christmas-draw?uid=67&platform=ph&lang=en",
-      url:
-        "http://10.99.200.168:8000/christmas-draw?uid=67&platform=vn&lang=EN",
-      // url: "http://10.99.200.168:8000/goldegg-draw?uid=67&platform=ph&lang=vi",
+      // url:"http://10.99.200.168:8000/christmas-draw?uid=67&platform=vn&lang=EN",
     };
   },
   created() {},

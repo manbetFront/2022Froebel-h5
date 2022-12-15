@@ -13,8 +13,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   async (config) => {
-    let plat = sessionStorage.getItem("platform");
-    config.headers["platform"] = plat;
+    config.headers["platform"] = "vn";
     return config;
   },
   (error) => {

@@ -1,47 +1,39 @@
 import service from "./service";
-// 中奖记录
-// export const getPrizelogs = (data) => {
-//   return service({
-//     method: "post",
-//     url: process.env.VUE_APP_LOG_API + "/front/activity/christmas_lottery/info",
-//     data,
-//   });
-// };
-
-// 圣诞-获取奖品信息1
-export const christmasInfo = (params) => {
+// 领取记录
+export const getReceiveList = (params) => {
   return service({
     method: "get",
-    url: "/front/activity/christmas_lottery/info",
+    url: "/api/new_year/receive/list",
     params: {
       ...params,
     },
   });
 };
 
-// 圣诞-用户抽奖信息2
-export const christmasLottery = (params) => {
+// 领取彩金
+export const getMoneyAdd = (data) => {
+  return service({
+    method: "post",
+    url: "/api/new_year/receive/add",
+    data,
+  });
+};
+
+// 活动主题
+export const cumulativeTheme = (params) => {
   return service({
     method: "get",
-    url: "/front/activity/christmas_lottery/draw",
+    url: "/api/new_year/cumulative/list",
+    // url: "api/new_year/theme_one/list",
     params: { ...params },
   });
 };
 
-// 金蛋-获取奖品信息1
-export const goldeggInfo = (params) => {
+// 解锁
+export const getunlocko = (data) => {
   return service({
-    method: "get",
-    url: "/front/activity/christmas_jindan/info",
-    params: { ...params },
-  });
-};
-
-// 金蛋-用户抽奖信息2
-export const goldeggLottery = (params) => {
-  return service({
-    method: "get",
-    url: "/front/activity/christmas_jindan/draw",
-    params: { ...params },
+    method: "post",
+    url: "/api/new_year/receive/unlocko",
+    data,
   });
 };

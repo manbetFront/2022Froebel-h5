@@ -2,9 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 const strokeAnalysis = () => import("@/pages/home/index.vue");
-const christmasdrew = () => import("@/pages/christmas-draw/index.vue");
-const firstFormation = () => import("@/pages/goldegg-draw/index.vue");
-// const newyears = () => import("@/pages/newyear-draw/index.vue");
+const newyearpc = () => import("@/pages/newyearpc/index.vue");
+const newyearh5 = () => import("@/pages/newyearh5/index.vue");
 Vue.use(VueRouter);
 
 const routes = [
@@ -18,20 +17,15 @@ const routes = [
     component: strokeAnalysis,
   },
   {
-    path: "/christmas-draw",
-    name: "christmas-draw",
-    component: christmasdrew,
+    path: "/newyear_pc",
+    name: "cnewyear_pc",
+    component: newyearpc,
   },
   {
-    path: "/goldegg-draw",
-    name: "goldegg-draw",
-    component: firstFormation,
+    path: "/newyear_h5",
+    name: "newyear_h5",
+    component: newyearh5,
   },
-  // {
-  //   path: "/newyear-draw",
-  //   name: "newyear-draw",
-  //   component: newyears,
-  // },
 ];
 
 const router = new VueRouter({

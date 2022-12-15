@@ -13,14 +13,14 @@ export default {
   data() {
     return {};
   },
-  watch: {
-    "$i18n.locale"(newVal, oldVal) {
-      console.log("app", newVal, oldVal);
-      if (newVal !== oldVal) {
-        location.reload();
-      }
-    },
-  },
+  // watch: {
+  //   "$i18n.locale"(newVal, oldVal) {
+  //     console.log("app", newVal, oldVal);
+  //     if (newVal !== oldVal) {
+  //       location.reload();
+  //     }
+  //   },
+  // },
 };
 </script>
 
