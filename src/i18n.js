@@ -15,16 +15,12 @@ function loadLocaleMessages() {
   });
   return messages;
 }
-let lang = sessionStorage.getItem("lang");
-console.log("lang11", lang);
-console.log("loadLocaleMessages", loadLocaleMessages());
 export const i18n = new VueI18n({
-  locale: lang,
-  fallbackLocale: "zh-CN",
+  locale: "vi",
+  fallbackLocale: "vi",
   messages: loadLocaleMessages(),
 });
 i18n.setLang = (lang) => {
-  console.log("zzzz");
   i18n.locale = lang;
   return lang;
 };

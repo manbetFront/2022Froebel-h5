@@ -9,28 +9,28 @@
 
       <div class="top_content">
         <div class="row_one">
-          <div>【活动时间】</div>
+          <div>【{{ $t("opennum") }}】</div>
           <p>2023/01/01 - 2023/01/06</p>
         </div>
         <div class="row_one">
-          <div>【活动对象】</div>
-          <p>全体会员</p>
+          <div>【{{ $t("singledep") }}】</div>
+          <p>{{ $t("getaward") }}</p>
         </div>
         <div class="row_one">
-          <div>【活动平台】</div>
-          <p>指定平台</p>
+          <div>【{{ $t("gainchance") }}】</div>
+          <p>{{ $t("platform") }}</p>
         </div>
       </div>
 
       <div class="rece_box">
         <div class="title">
           <img src="../../common/img/2-4@2x.png" />
-          <div @click="getRecive">领取记录</div>
+          <div @click="getRecive">{{ $t("grandbet") }}</div>
         </div>
         <div class="row" v-for="item in cersivelist">
           <div class="left">
             <div>{{ item.label }}:</div>
-            <div>今日完成次数：{{ item.num }}次</div>
+            <div>{{ $t("todaycomp") }}：{{ item.num }}次</div>
           </div>
           <div class="right">
             <Progress
@@ -49,16 +49,17 @@
 
         <div class="grand">
           <div class="all">
-            累计已完成次数：{{ activityContent.total_number }}次
+            {{ $t("incentive") }}：{{ activityContent.total_number
+            }}{{ $t("degree") }}
             <span
-              >累计彩金：{{
+              >{{ $t("handsel") }}：{{
                 parseFloat(activityContent.lottery_money).toFixed(3)
               }}VNDK</span
             >
           </div>
           <div class="btn" @click="getcollet(1)">
             <img src="../../common/img/4@2x.png" />
-            <div>领取</div>
+            <div>{{ $t("pulldown") }}</div>
           </div>
         </div>
       </div>
@@ -75,8 +76,10 @@
           />
           <div class="model" v-else>
             <div class="unlock">
-              <div v-if="item.type == 2" @click="deblock">解锁</div>
-              <p v-if="item.type == 3">未解锁</p>
+              <div v-if="item.type == 2" @click="deblock">
+                {{ $t("opengold") }}
+              </div>
+              <p v-if="item.type == 3">{{ $t("goldchance") }}</p>
             </div>
           </div>
         </div>
@@ -85,11 +88,14 @@
         <div class="row">
           <div class="left">
             <div>
-              累计存款金额：{{
+              {{ $t("threeflow") }}：{{
                 parseFloat(activityContent.amount_total).toFixed(3)
               }}VNDK
             </div>
-            <div>已解锁人物：{{ activityContent.delock_count }}位</div>
+            <div>
+              {{ $t("failgold") }}：{{ activityContent.delock_count
+              }}{{ $t("place") }}
+            </div>
           </div>
           <div class="right">
             <Progress
@@ -108,14 +114,14 @@
       </div>
       <div class="center_bot">
         <div class="raise">
-          加码彩金：{{
+          {{ $t("raise") }}：{{
             parseFloat(activityContent.plus_lottery_money).toFixed(3)
           }}
           VNDK
         </div>
         <div class="btn" @click="getcollet(2)">
           <!-- <img src="../../common/img/3@2x.png"/> -->
-          <div>领取</div>
+          <div>{{ $t("pulldown") }}</div>
         </div>
       </div>
     </div>
@@ -127,7 +133,7 @@
       <div class="all_box">
         <div class="title">
           <img src="../../common/img/1@2x.png" />
-          <div>活动内容</div>
+          <div>{{ $t("drewover") }}</div>
           <img src="../../common/img/2-3@2x.png" />
         </div>
         <!-- <div class="rowinfo">
@@ -145,66 +151,57 @@
           </div>
         </div> -->
 
-        <div class="tips1">
-          【活动内容】会员于2023.01.01-2023.01.06期间，完成以下任务即可获得【福禄双收跨新年】奖励。
-        </div>
+        <div class="tips1">【{{ $t("drewover") }}】{{ $t("eggover") }}</div>
 
         <div class="box_table">
-          <div class="til">
-            ① 每日完成以下投注任务即可获得对应任务彩金奖励。
-          </div>
+          <div class="til">① {{ $t("themaone") }}</div>
           <div class="table">
             <div class="header">
-              <div>游戏平台</div>
-              <div>任务</div>
-              <div>任务彩金</div>
-              <div>每日任务上限</div>
+              <div>{{ $t("game") }}</div>
+              <div>{{ $t("task") }}</div>
+              <div>{{ $t("taskmon") }}</div>
+              <div>{{ $t("tasklimit") }}</div>
             </div>
             <div class="body" v-for="item in table1">
               <div class="exceed">{{ item.label }}</div>
-              <div class="exceed">每日有效投放{{ item.task }}VNDK</div>
+              <div class="exceed">{{ $t("valid") }}{{ item.task }}VNDK</div>
               <div>{{ item.handsel }}VNDK</div>
               <div>{{ item.limit }}</div>
             </div>
           </div>
           <div class="til2">
-            贴士：本主题投注任务每日00:00重置，当日若未达成任务，次日需重新累计有效投注以获得对应奖励。
+            {{ $t("tips1") }}
           </div>
         </div>
 
         <div class="box_table">
-          <div class="til">
-            ① 每日完成以下投注任务即可获得对应任务彩金奖励。
-          </div>
+          <div class="til">② {{ $t("extra") }}</div>
           <div class="table">
             <div class="header">
-              <div>解锁人物</div>
-              <div>完成任务</div>
-              <div>额外加码彩金</div>
+              <div>{{ $t("lock") }}</div>
+              <div>{{ $t("over") }}</div>
+              <div>{{ $t("source") }}</div>
             </div>
             <div class="body" v-for="item in table2">
-              <div>{{ item.people }}位</div>
-              <div>{{ item.task }}个</div>
+              <div>{{ item.people }}{{ $t("place") }}</div>
+              <div>{{ item.task }}{{ $t("ent") }}</div>
               <div>{{ item.handsel }}VNDK</div>
             </div>
-          </div>
-          <div class="til2">
-            贴士：本主题投注任务每日00:00重置，当日若未达成任务，次日需重新累计有效投注以获得对应奖励。
           </div>
         </div>
 
         <div class="desc">
-          <div class="state">【活动说明】</div>
-          1.本优惠需会员在活动指定时间内进行点击领取彩金，超时即视为放弃该活动奖励。<br />
-          2.本优惠成功领取后不能取消，所获彩金需在完成5倍流水(不含沙巴体育和彩票)即可提款。<br />
-          3.本优惠所需存款和投注不与其他活动共享，可与返水活动共享。<br />
-          4.本优惠仅对已结算并产生输赢结果的投注进行计算。所有拒绝投注，无效投注，打平，任何出现对押情况的投注及港赔≤0.7、欧赔≤1.7或其他对应赔率，串关投注将不计算在内。<br />
-          5.本优惠遵循ManBetX万博【一般优惠规则与条款】。<br />
+          <div class="state">【{{ $t("event") }}】</div>
+          {{ $t("actinfo1") }}<br />
+          {{ $t("actinfo2") }}<br />
+          {{ $t("actinfo3") }}<br />
+          {{ $t("actinfo4") }}<br />
+          {{ $t("actinfo5") }}<br />
         </div>
       </div>
       <img class="bottom_img" src="../../common/img/invalid-name@2x.png" />
       <div class="topbox">
-        <div class="gotop" @click="backTop">回到顶部</div>
+        <div class="gotop" @click="backTop">{{ $t("gotop") }}</div>
       </div>
     </div>
 
@@ -213,10 +210,10 @@
       <div class="modeltable">
         <div class="table">
           <div class="header three">
-            <div>序号</div>
-            <div>单号</div>
-            <div>彩金金额</div>
-            <div class="time">领取时间</div>
+            <div>{{ $t("index") }}</div>
+            <div>{{ $t("order") }}</div>
+            <div>{{ $t("color") }}</div>
+            <div class="time">{{ $t("gettime") }}</div>
           </div>
           <div class="body three" v-for="(item, i) in listdata">
             <div>{{ i + 1 }}</div>
@@ -232,9 +229,8 @@
 
 <script>
 import Vue from "vue";
-import { Message, Progress, Dialog, Table, Loading } from "element-ui";
-Vue.use(Message)
-  .use(Progress)
+import { Progress, Dialog, Table, Loading } from "element-ui";
+Vue.use(Progress)
   .use(Dialog)
   .use(Table)
   .use(Loading);
@@ -252,14 +248,14 @@ export default {
       listdata: [],
       cersivelist: [],
       table1: [
-        { label: "电子平台", task: 1500, handsel: 10, limit: 15 },
+        { label: this.$t("granddep"), task: 1500, handsel: 10, limit: 15 },
         {
-          label: "体育/电竞平台(不含沙巴体育)",
+          label: this.$t("getmeet"),
           task: 2800,
           handsel: 28,
           limit: 18,
         },
-        { label: "真人/棋牌平台", task: 3500, handsel: 35, limit: 20 },
+        { label: this.$t("opendrew"), task: 3500, handsel: 35, limit: 20 },
       ],
       table2: [
         { people: 3, task: 15, handsel: 38 },
@@ -274,35 +270,19 @@ export default {
       imglist: [],
       activityContent: {},
       user_id: 100336,
+
       loading: "",
     };
   },
 
   async mounted() {
     // 加载时显示loading
-    this.loading = this.$loading({
-      lock: true,
-      text: "Loading",
-      spinner: "el-icon-loading",
-      background: "rgba(0, 0, 0, 0.7)",
-    });
-    // 先判断是不是微信端打开的
-    if (/(micromessenger)/i.test(navigator.userAgent)) {
-      // alert("微信");
-      this.isenv = "wechat";
-    } else {
-      // alert("普通浏览器");
-      // 判断h5还是pc true就是h5
-      let client = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-      if (client) {
-        this.isenv = "h5";
-      } else {
-        this.isenv = "pc";
-      }
-    }
-    this.getheme();
+    // this.loading = this.$loading({
+    //   lock: true,
+    //   text: "Loading",
+    //   spinner: "el-icon-loading",
+    //   background: "rgba(0, 0, 0, 0.7)",
+    // });
 
     let url = location.href;
     if (url.length > 0) {
@@ -315,22 +295,12 @@ export default {
           params[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
         }
       }
-      const { uid, platform, lang } = params;
-      this.uid = uid;
-      this.platform = platform;
-      this.lang = lang;
-      sessionStorage.setItem("lang", lang);
-      sessionStorage.setItem("platform", platform);
-      this.$i18n.locale = lang;
+      const { uid } = params;
+      this.user_id = uid;
 
+      this.getheme(uid);
       this.getinfo();
-
-      window.addEventListener("scroll", this.scrollToTop);
     }
-  },
-
-  destroyed() {
-    window.removeEventListener("scroll", this.scrollToTop);
   },
   methods: {
     backTop() {
@@ -341,10 +311,10 @@ export default {
     async deblock() {
       await getunlock({ user_id: this.user_id }).then((res) => {
         if (res.code == 200) {
-          this.getheme();
-          Message({ type: "success", message: "解锁成功" });
+          this.getheme(this.user_id);
+          this.$message({ type: "success", message: "领取成功" });
         } else {
-          Message({ type: "warning", message: res.msg });
+          this.$message({ type: "warning", message: res.msg });
         }
       });
     },
@@ -359,9 +329,9 @@ export default {
       };
       await getMoneyAdd(params).then((res) => {
         if (res.code == 200) {
-          Message({ type: "success", message: "领取成功" });
+          this.$message({ type: "success", message: "领取成功" });
         } else {
-          Message({ type: "warning", message: res.msg });
+          this.$message({ type: "warning", message: res.msg });
         }
       });
     },
@@ -384,7 +354,7 @@ export default {
     },
 
     // 主题
-    async getheme() {
+    async getheme(user_id) {
       let list = this.imglist;
       list = [
         { img: require("../../common/imgs/1@2x.png") },
@@ -396,27 +366,27 @@ export default {
         { img: require("../../common/imgs/7@2x.png") },
         { img: require("../../common/imgs/8@2x.png") },
       ];
-      await cumulativeTheme({ user_id: this.user_id, platform_id: 10002 }).then(
+      await cumulativeTheme({ user_id: user_id, platform_id: 10002 }).then(
         (res) => {
           if (res.code == 200) {
-            this.loading.close();
+            // this.loading.close();
             let data = res.data;
             this.activityContent = data;
             this.cersivelist = [
               {
-                label: "电子有效投注",
+                label: this.$t("granddep"),
                 num: data.jl_today_number,
                 percent: data.wire_valid_bet_amount,
                 total: 1500,
               },
               {
-                label: "体育（不包含沙巴）/电竞平台",
+                label: this.$t("getmeet"),
                 num: data.ai_today_number,
                 percent: data.sport_valid_bet_amount,
                 total: 2800,
               },
               {
-                label: "真人/棋牌平台",
+                label: this.$t("opendrew"),
                 num: data.ae_today_number,
                 percent: data.really_valid_bet_amount,
                 total: 3500,
@@ -442,6 +412,8 @@ export default {
             });
             this.imglist = list;
             this.$forceUpdate();
+          } else {
+            this.$message({ type: "warning", message: res.msg });
           }
         }
       );
