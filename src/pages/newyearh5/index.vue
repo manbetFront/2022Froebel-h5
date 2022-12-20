@@ -1,28 +1,31 @@
 <template>
-  <div class="pc_container">
+  <div class="h5_container">
     <img class="banner" src="../../common/imgs/banner@2x.png" />
-    <div class="top_content">
-      <div class="row_one">
-        <div>【活动时间】</div>
-        <p>2023/01/01 - 2023/01/06</p>
-      </div>
-      <div class="row_one">
-        <div>【活动对象】</div>
-        <p>全体会员</p>
-      </div>
-      <div class="row_one">
-        <div>【活动平台】</div>
-        <p>指定平台</p>
+    <div class="top_box">
+      <div class="top_content">
+        <div class="row_one">
+          <div>【活动时间】</div>
+          <p>2023/01/01 - 2023/01/06</p>
+        </div>
+        <div class="row_one">
+          <div>【活动对象】</div>
+          <p>全体会员</p>
+        </div>
+        <div class="row_one">
+          <div>【活动平台】</div>
+          <p>指定平台</p>
+        </div>
       </div>
     </div>
 
     <div class="receive">
       <img class="pos1" src="../../common/img/2-2@2x.png" />
-      <img class="pos2" src="../../common/img/denglong.png" />
+      <img class="pos2" src="../../common/imgs/yun.png" />
+      <img class="pos3" src="../../common/imgs/yun.png" />
       <div class="rece_box">
         <div class="title">
           <img src="../../common/img/2-4@2x.png" />
-          <div>领取记录</div>
+          <div @click="getRecive">领取记录</div>
         </div>
         <div class="row" v-for="item in cersivelist">
           <div class="left">
@@ -30,11 +33,15 @@
           </div>
           <div class="right">
             <Progress
+              :show-text="false"
               :color="color"
               :text-inside="true"
               :stroke-width="10"
-              :percentage="item.percent"
+              :percentage="Number(item.percent / item.total) * 100"
             ></Progress>
+            <div class="perc">
+              {{ parseFloat(item.percent).toFixed(3) }}VNDK
+            </div>
             <div class="total">{{ item.total }}VNDK</div>
           </div>
         </div>
@@ -45,10 +52,14 @@
               累计已完成次数：<span>{{ activityContent.total_number }}次</span>
             </div>
             <div class="mon">
-              累计彩金：<span>{{ activityContent.lottery_money }}VNDK</span>
+              累计彩金：<span
+                >{{
+                  parseFloat(activityContent.lottery_money).toFixed(3)
+                }}VNDK</span
+              >
             </div>
           </div>
-          <div class="btn">
+          <div class="btn" @click="getcollet(1)">
             <img src="../../common/img/4@2x.png" />
             <div>领取</div>
           </div>
@@ -60,11 +71,15 @@
       <div class="people_box">
         <div class="one_box" v-for="item in imglist">
           <img class="woman" :src="item.img" />
-          <img class="follow" src="../../common/img/2@2x.png" />
-          <div class="model">
+          <img
+            v-if="item.type == 1"
+            class="follow"
+            src="../../common/img/2@2x.png"
+          />
+          <div class="model" v-else>
             <div class="unlock">
-              <div>解锁</div>
-              <!-- <p>未解锁</p> -->
+              <div v-if="item.type == 2" @click="deblock">解锁</div>
+              <p v-if="item.type == 3">未解锁</p>
             </div>
           </div>
         </div>
@@ -74,24 +89,33 @@
           <div class="left">
             <div>
               累计存款金额:
-              {{ activityContent.amount_total }}VNDK
+              {{ parseFloat(activityContent.amount_total).toFixed(3) }}VNDK
               <span>已解锁人物：{{ activityContent.delock_count }}位</span>
             </div>
           </div>
           <div class="right">
             <Progress
+              :show-text="false"
               :color="color"
               :text-inside="true"
               :stroke-width="10"
-              :percentage="50"
+              :percentage="Number(activityContent.amount_total / 3188) * 100"
             ></Progress>
-            <div class="total">876VNDK</div>
+            <div class="perct">
+              {{ parseFloat(activityContent.amount_total).toFixed(3) }}VNDK
+            </div>
+            <div class="total">3188VNDK</div>
           </div>
         </div>
       </div>
       <div class="center_bot">
-        <div class="raise">加码彩金：898977 VNDK</div>
-        <div class="btn">
+        <div class="raise">
+          加码彩金：{{
+            parseFloat(activityContent.plus_lottery_money).toFixed(3)
+          }}
+          VNDK
+        </div>
+        <div class="btn" @click="getcollet(2)">
           <!-- <img src="../../common/img/3@2x.png"/> -->
           <div>领取</div>
         </div>
@@ -168,74 +192,92 @@
           4.本优惠仅对已结算并产生输赢结果的投注进行计算。所有拒绝投注，无效投注，打平，任何出现对押情况的投注及港赔≤0.7、欧赔≤1.7或其他对应赔率，串关投注将不计算在内。<br />
           5.本优惠遵循ManBetX万博【一般优惠规则与条款】。<br />
         </div>
-
-        <div class="gotop">回到顶部</div>
+      </div>
+      <div class="topbox">
+        <div class="gotop" @click="backTop">回到顶部</div>
       </div>
       <img class="bottom_img" src="../../common/img/invalid-name@2x.png" />
+    </div>
+
+    <div v-show="dialogVisible" class="model-box">
+      <div class="modelveng" @click="dialogVisible = false"></div>
+      <div class="modeltable">
+        <div class="table">
+          <div class="header three">
+            <div>序号</div>
+            <div>单号</div>
+            <div>彩金金额</div>
+            <div class="time">领取时间</div>
+          </div>
+          <div class="body three" v-for="(item, i) in listdata">
+            <div>{{ i + 1 }}</div>
+            <div>{{ item.order_no }}</div>
+            <div>{{ item.lottery_amount }}</div>
+            <div class="time">{{ item.created_at }}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
-import { Message, Progress } from "element-ui";
-Vue.use(Message).use(Progress);
+import { Message, Progress, Dialog, Table, Loading } from "element-ui";
+Vue.use(Message)
+  .use(Progress)
+  .use(Dialog)
+  .use(Table)
+  .use(Loading);
 
-import { getReceiveList, cumulativeTheme } from "@/api";
+import { getReceiveList, cumulativeTheme, getMoneyAdd, getunlock } from "@/api";
 export default {
   components: {
     Progress: Progress,
   },
   data() {
     return {
+      dialogVisible: false,
       isenv: "",
       color: "#eda567",
       listdata: [],
-      cersivelist: [
-        { label: "电子有效投注", num: 3, percent: 50, total: 120 },
-        {
-          label: "体育（不包含沙巴）/电竞平台",
-          num: 3,
-          percent: 75,
-          total: 100,
-        },
-        { label: "真人/棋牌平台", num: 3, percent: 30, total: 100 },
-      ],
+      cersivelist: [],
       table1: [
-        { label: "电子平台", task: "", handsel: 50, limit: 20 },
+        { label: "电子平台", task: 1500, handsel: 10, limit: 15 },
         {
           label: "体育/电竞平台(不含沙巴体育)",
-          task: 3,
-          handsel: 75,
-          limit: 100,
+          task: 2800,
+          handsel: 28,
+          limit: 18,
         },
-        { label: "真人/棋牌平台", task: 3, handsel: 30, limit: 100 },
+        { label: "真人/棋牌平台", task: 3500, handsel: 35, limit: 20 },
       ],
       table2: [
-        { people: 2, task: 12, handsel: 700 },
-        { people: 2, task: 12, handsel: 700 },
-        { people: 2, task: 12, handsel: 700 },
+        { people: 3, task: 15, handsel: 38 },
+        { people: 5, task: 50, handsel: 108 },
+        { people: 8, task: 100, handsel: 188 },
       ],
 
       uid: "",
       platform: "",
       lang: "",
 
-      imglist: [
-        { img: require("../../common/imgs/1@2x.png") },
-        { img: require("../../common/imgs/2@2x.png") },
-        { img: require("../../common/imgs/3@2x.png") },
-        { img: require("../../common/imgs/4@2x.png") },
-        { img: require("../../common/imgs/5@2x.png") },
-        { img: require("../../common/imgs/6@2x.png") },
-        { img: require("../../common/imgs/7@2x.png") },
-        { img: require("../../common/imgs/8@2x.png") },
-      ],
+      imglist: [],
       activityContent: {},
+      user_id: 100336,
+
+      loading: "",
     };
   },
 
   async mounted() {
+    // 加载时显示loading
+    this.loading = this.$loading({
+      lock: true,
+      text: "Loading",
+      spinner: "el-icon-loading",
+      background: "rgba(0, 0, 0, 0.7)",
+    });
     // 先判断是不是微信端打开的
     if (/(micromessenger)/i.test(navigator.userAgent)) {
       // alert("微信");
@@ -252,6 +294,7 @@ export default {
         this.isenv = "pc";
       }
     }
+    this.getheme();
 
     let url = location.href;
     if (url.length > 0) {
@@ -264,55 +307,132 @@ export default {
           params[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
         }
       }
-      console.log("params", params);
       const { uid, platform, lang } = params;
       this.uid = uid;
       this.platform = platform;
       this.lang = lang;
       sessionStorage.setItem("lang", lang);
       sessionStorage.setItem("platform", platform);
-      console.log(this.$i18n);
       this.$i18n.locale = lang;
-      await this.getinfo();
-      this.getheme();
+
+      this.getinfo();
     }
   },
   methods: {
+    backTop() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    },
+    // 解锁
+    async deblock() {
+      await getunlock({ user_id: this.user_id }).then((res) => {
+        if (res.code == 200) {
+          this.getheme();
+          Message({ type: "success", message: "领取成功" });
+        } else {
+          Message({ type: "warning", message: res.msg });
+        }
+      });
+    },
+    // 领取彩金
+    async getcollet(type) {
+      let { lottery_money, total_number } = this.activityContent;
+      let params = {
+        user_id: this.user_id,
+        lottery_amount: lottery_money,
+        lottery_type: type == 1 ? "theme_one" : "theme_two",
+        finish_count: total_number,
+      };
+      await getMoneyAdd(params).then((res) => {
+        if (res.code == 200) {
+          Message({ type: "success", message: "领取成功" });
+        } else {
+          Message({ type: "warning", message: res.msg });
+        }
+      });
+    },
+    // 关闭弹窗
+    cancelmodel() {
+      this.dialogVisible = false;
+    },
+
+    // 打开领奖记录
+    getRecive() {
+      this.dialogVisible = true;
+    },
     // 领取记录
     async getinfo() {
       await getReceiveList({
         page_size: 10,
       }).then((res) => {
-        this.listdata = res.data;
+        this.listdata = res.data.list;
       });
     },
 
     // 主题
     async getheme() {
-      await cumulativeTheme({ user_id: 100115 }).then((res) => {
-        let data = res.data;
-        this.activityContent = data;
-        this.cersivelist = [
-          {
-            label: "电子有效投注",
-            num: data.jl_today_number,
-            percent: data.wire_valid_bet_amount,
-            total: 1500,
-          },
-          {
-            label: "体育（不包含沙巴）/电竞平台",
-            num: data.ai_today_number,
-            percent: data.sport_valid_bet_amount,
-            total: 2800,
-          },
-          {
-            label: "真人/棋牌平台",
-            num: data.ae_today_number,
-            percent: data.really_valid_bet_amount,
-            total: 3500,
-          },
-        ];
-      });
+      let list = this.imglist;
+      list = [
+        { img: require("../../common/imgs/1@2x.png") },
+        { img: require("../../common/imgs/2@2x.png") },
+        { img: require("../../common/imgs/3@2x.png") },
+        { img: require("../../common/imgs/4@2x.png") },
+        { img: require("../../common/imgs/5@2x.png") },
+        { img: require("../../common/imgs/6@2x.png") },
+        { img: require("../../common/imgs/7@2x.png") },
+        { img: require("../../common/imgs/8@2x.png") },
+      ];
+      await cumulativeTheme({ user_id: this.user_id, platform_id: 10002 }).then(
+        (res) => {
+          if (res.code == 200) {
+            this.loading.close();
+            let data = res.data;
+            this.activityContent = data;
+            this.cersivelist = [
+              {
+                label: "电子有效投注",
+                num: data.jl_today_number,
+                percent: data.wire_valid_bet_amount,
+                total: 1500,
+              },
+              {
+                label: "体育（不包含沙巴）/电竞平台",
+                num: data.ai_today_number,
+                percent: data.sport_valid_bet_amount,
+                total: 2800,
+              },
+              {
+                label: "真人/棋牌平台",
+                num: data.ae_today_number,
+                percent: data.really_valid_bet_amount,
+                total: 3500,
+              },
+            ];
+
+            let delock_count = data.delock_count; //已解锁
+            let unlock_count = data.unlock_count; //可解锁
+            let notlock_count = data.notlock_count; //未解锁
+            // let delock_count = 1; //已解锁
+            // let unlock_count = 4; //可解锁
+            // let notlock_count = 3; //未解锁
+
+            list.forEach((item, i) => {
+              let idx = i + 1;
+              item.type = 3;
+              if (idx <= delock_count) {
+                item.type = 1;
+              }
+              if (idx > delock_count && idx <= unlock_count + delock_count) {
+                item.type = 2;
+              }
+            });
+            this.imglist = list;
+            this.$forceUpdate();
+          } else {
+            Message({ type: "warning", message: res.msg });
+          }
+        }
+      );
     },
   },
 };
@@ -327,23 +447,52 @@ r2(val){
   return (val/16)rem
 }
 
-.pc_container{
+.h5_container{
   width:100vw;
   .banner{
     width:100%;
     height:auto;
     display:flex;
   }
-  .top_content{
+  .top_box{
+    background-image: linear-gradient(to bottom, #fffbf1, #fff6df);
     width:100vw;
-    // height:r(1001);
+    padding-top:r(20)
+  }
+  .top_content{
+    width:r(360);
+    height:r(82);
+    margin:0 auto;
     background-image:url('../../common/imgs/invalidName.png');
     background-repeat:no-repeat;
     background-size:cover;
+    display:flex;
+    justify-content:space-between;
+    .row_one{
+        // display:flex;
+        text-align:center;
+        color: #7e0000;
+        width:33.3%
+        color:rgb(246 232 194)
+        margin-top:r(22)
+        div{
+          font-size:r(13)
+          margin-bottom:r(12)
+        }
+        p{
+          font-size:r(10)
+          font-weight:400;
+          // width:r(245)
+        }
+        .more{
+          line-height:r(18)
+          margin-top:r(-2)
+        }
+      }
   }
   .activity_content{
     width:100vw;
-    height:r(1040);
+    height:r(970);
     background-image: linear-gradient(to bottom, #fffbf1, #fff6df);
     position:relative;
     .pos1{
@@ -465,8 +614,16 @@ r2(val){
         font-size:r(15);
       }
     }
+
+    .topbox{
+      width:100vw;
+      display:flex;
+      justify-content:center;
+    }
     .gotop{
+      position:absolute;
        margin: auto;
+       bottom:r(60)
       width: r(140);
       height: r(40);
       line-height: r(40);
@@ -474,7 +631,6 @@ r2(val){
       color:#fff;
       font-size:r(15)
       border-radius: r(4);
-      margin-top:r(30)
       background-image: linear-gradient(to bottom, #fe5c5c, #d82c2c), linear-gradient(to bottom, #d8d8d8, #d8d8d8);
     }
 
@@ -582,6 +738,29 @@ r2(val){
             .el-progress{
               margin-top:r(49);
             }
+
+            .perct{
+              width: r(80);
+              height: r(20);
+              line-height: r(20);
+              background-color: #fbedc9;
+              color: #c53a3a;
+              text-align center;
+              position:absolute;
+              left:0;
+              bottom:r(20);
+              font-size:r(11);
+              &:after{
+                position:absolute;
+                content:'';
+                border-top:r(6) solid #fbedc9;
+                border-left:r(6) solid transparent;
+                border-right:r(6) solid transparent;
+                left:r(33);
+                bottom: r(-5);
+              }
+            }
+
             .total{
               width:r(94);
               height:r(20);
@@ -607,7 +786,7 @@ r2(val){
               &:after{
                 position:absolute;
                 content:'';
-                border-top:r(4) solid #c53a3a;
+                border-top:r(5) solid #c53a3a;
                 border-left:r(4) solid transparent;
                 border-right:r(4) solid transparent;
                 left:r(42);
@@ -682,22 +861,32 @@ r2(val){
   }
   .receive{
     width:100vw;
-    height:r(467.5);
+    height:r(500.5);
     background-image: linear-gradient(to bottom, #fffbf1, #fff6df);
     position:relative;
-    .pos2{
-      position:absolute;
-      right:0;
-      top:r(0);
-      width:r(38);
-      height:r(71.5);
-    }
+
     .pos1{
       position:absolute;
       left:0;
       bottom:0;
       width:r(54.9);
       height:r(64);
+    }
+    .pos2{
+      position:absolute;
+      right:0;
+      top:r(10);
+      left:0
+      width:r(90.9);
+      height:auto;
+    }
+    .pos3{
+      position:absolute;
+      right:0;
+      top:r(60);
+      right:0
+      width:r(90.9);
+      height:auto;
     }
       .rece_box{
         width:100%;
@@ -706,7 +895,7 @@ r2(val){
         align-self:center;
         vertical-align:middle
         .title{
-          padding-top:r(20);
+          padding-top:r(30);
           position:relative;
           width:r(140);
           margin:0 auto;
@@ -724,7 +913,7 @@ r2(val){
             color:#f6e8c2;
             position:absolute;
             left:0;
-            top:r(18)
+            top:r(28)
           }
         }
         .row{
@@ -747,6 +936,28 @@ r2(val){
             // margin-right:r(50);
             .el-progress{
               margin-top:r(35);
+            }
+            .perc{
+              width: r(80);
+              height: r(20);
+              line-height: r(20);
+              background-color: #c53a3a;
+              color: #ffea81;
+              text-align center;
+              position:absolute;
+              left:0
+              // top:r(-30);
+              bottom:r(19);
+              font-size:r(11);
+              &:after{
+                position:absolute;
+                content:'';
+                border-top:r(6) solid #c53a3a;
+                border-left:r(6) solid transparent;
+                border-right:r(6) solid transparent;
+                left:r(32);
+                bottom: r(-5);
+              }
             }
             .total{
               width:r(90);
@@ -860,6 +1071,77 @@ r2(val){
       }
   }
 
+}
+
+.model-box{
+  width:100vw;
+  height:100vh;
+  position:fixed;
+  z-index:20;
+  top:0;
+  left:0
+  .modelveng{
+    width:100vw;
+    height:100vh;
+    position:absolute;
+    top:0;
+    left:0
+    background:rgba(0,0,0,0.5)
+  }
+}
+.modeltable{
+  position:absolute;
+  width:90%;
+  // height:r(100);
+  background:#fff;
+  z-index:22;
+  left:5%
+  top:20%;
+  .table{
+    width:100%;
+    height:100%;
+    background:#e1544a;
+    // margin:r(5) 0;
+    .header{
+      display:flex;
+      justify-content space-between
+      height:r(40);
+      line-height:r(40);
+      div{
+        width:25%;
+        text-align:center;
+        color:#fff;
+        font-size:r(11);
+      }
+      .time{
+        width:r(120)
+      }
+    }
+
+    .body{
+      display:flex;
+      justify-content space-between
+      height:r(40);
+      line-height:r(40);
+      border-top:r(0.5) solid #ffeb8b;
+      div{
+        width:25%;
+        text-align:center;
+        color:#ffeb8b;;
+        font-size:r(11);
+      }
+      .exceed{
+        height:r(30);
+        line-height: r(16);
+        margin-top:r(5)
+      }
+      .time{
+        line-height:r(20)
+        width:r(120)
+      }
+    }
+
+  }
 }
 /deep/ .el-progress-bar__outer{
   overflow:inherit !important;

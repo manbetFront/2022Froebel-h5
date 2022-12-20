@@ -30,10 +30,10 @@ export const cumulativeTheme = (params) => {
 };
 
 // 解锁
-export const getunlocko = (data) => {
+export const getunlock = (data) => {
   return service({
     method: "post",
-    url: "/api/new_year/receive/unlocko",
+    url: "/api/new_year/receive/unlock",
     data,
   });
 };

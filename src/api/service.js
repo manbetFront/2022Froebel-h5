@@ -20,7 +20,7 @@ service.interceptors.request.use(
     // store.commit('setIsLoading', false)
     // do something with request error
     console.log(error); // for debug
-    Message({ type: "warning", message: error.message });
+    // Message({ type: "warning", message: error.message });
     return Promise.reject(error);
   }
 );

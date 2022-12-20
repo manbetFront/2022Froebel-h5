@@ -4,11 +4,28 @@
 
     <div class="receive">
       <img class="pos1" src="../../common/img/2-2@2x.png" />
-      <img class="pos2" src="../../common/img/denglong.png" />
+      <img class="pos2" src="../../common/img/hongdenglong.png" />
+      <img class="pos3" src="../../common/img/hongdenglong.png" />
+
+      <div class="top_content">
+        <div class="row_one">
+          <div>【活动时间】</div>
+          <p>2023/01/01 - 2023/01/06</p>
+        </div>
+        <div class="row_one">
+          <div>【活动对象】</div>
+          <p>全体会员</p>
+        </div>
+        <div class="row_one">
+          <div>【活动平台】</div>
+          <p>指定平台</p>
+        </div>
+      </div>
+
       <div class="rece_box">
         <div class="title">
           <img src="../../common/img/2-4@2x.png" />
-          <div>领取记录</div>
+          <div @click="getRecive">领取记录</div>
         </div>
         <div class="row" v-for="item in cersivelist">
           <div class="left">
@@ -17,18 +34,29 @@
           </div>
           <div class="right">
             <Progress
+              :show-text="false"
               :color="color"
               :text-inside="true"
               :stroke-width="10"
-              :percentage="item.percent"
+              :percentage="Number(item.percent / item.total) * 100"
             ></Progress>
+            <div class="perc">
+              {{ parseFloat(item.percent).toFixed(3) }}VNDK
+            </div>
             <div class="total">{{ item.total }}VNDK</div>
           </div>
         </div>
 
         <div class="grand">
-          <div class="all">累计已完成次数：36次 累计彩金：300VNDK</div>
-          <div class="btn">
+          <div class="all">
+            累计已完成次数：{{ activityContent.total_number }}次
+            <span
+              >累计彩金：{{
+                parseFloat(activityContent.lottery_money).toFixed(3)
+              }}VNDK</span
+            >
+          </div>
+          <div class="btn" @click="getcollet(1)">
             <img src="../../common/img/4@2x.png" />
             <div>领取</div>
           </div>
@@ -38,16 +66,17 @@
 
     <div class="center_box">
       <div class="people_box">
-        <div class="one_box" v-for="item in 7">
-          <img class="woman" src="../../common/img/1-2@2x.png" />
-          <img class="follow" src="../../common/img/2@2x.png" />
-        </div>
-        <div class="one_box">
-          <img class="woman" src="../../common/img/2-5@2x.png" />
-          <div class="model">
+        <div class="one_box" v-for="item in imglist">
+          <img class="woman" :src="item.img" />
+          <img
+            class="follow"
+            v-if="item.type == 1"
+            src="../../common/img/2@2x.png"
+          />
+          <div class="model" v-else>
             <div class="unlock">
-              <!-- <div>解锁</div> -->
-              <p>未解锁</p>
+              <div v-if="item.type == 2" @click="deblock">解锁</div>
+              <p v-if="item.type == 3">未解锁</p>
             </div>
           </div>
         </div>
@@ -55,23 +84,36 @@
       <div class="total_price">
         <div class="row">
           <div class="left">
-            <div>累计存款金额:</div>
-            <div>今日完成次数：4次</div>
+            <div>
+              累计存款金额：{{
+                parseFloat(activityContent.amount_total).toFixed(3)
+              }}VNDK
+            </div>
+            <div>已解锁人物：{{ activityContent.delock_count }}位</div>
           </div>
           <div class="right">
             <Progress
+              :show-text="false"
               :color="color"
               :text-inside="true"
               :stroke-width="10"
-              :percentage="20"
+              :percentage="Number(activityContent.amount_total / 3188) * 100"
             ></Progress>
-            <div class="total">876VNDK</div>
+            <div class="perct">
+              {{ parseFloat(activityContent.amount_total).toFixed(3) }}VNDK
+            </div>
+            <div class="total">3188VNDK</div>
           </div>
         </div>
       </div>
       <div class="center_bot">
-        <div class="raise">加码彩金：898977 VNDK</div>
-        <div class="btn">
+        <div class="raise">
+          加码彩金：{{
+            parseFloat(activityContent.plus_lottery_money).toFixed(3)
+          }}
+          VNDK
+        </div>
+        <div class="btn" @click="getcollet(2)">
           <!-- <img src="../../common/img/3@2x.png"/> -->
           <div>领取</div>
         </div>
@@ -80,14 +122,15 @@
 
     <div class="activity_content">
       <img class="pos1" src="../../common/img/2-2@2x.png" />
-      <img class="pos2" src="../../common/img/denglong.png" />
+      <img class="pos2" src="../../common/img/hongdenglong.png" />
+      <img class="pos3" src="../../common/img/hongdenglong.png" />
       <div class="all_box">
         <div class="title">
           <img src="../../common/img/1@2x.png" />
           <div>活动内容</div>
           <img src="../../common/img/2-3@2x.png" />
         </div>
-        <div class="rowinfo">
+        <!-- <div class="rowinfo">
           <div class="row_one">
             <div>【活动时间】</div>
             <p>2023年01月09日 - 2023年02月08日</p>
@@ -100,10 +143,10 @@
             <div>【活动平台】</div>
             <p>指定平台</p>
           </div>
-        </div>
+        </div> -->
 
         <div class="tips1">
-          【活动内容】会员于2023.01.01-2023.01.05期间，完成以下任务即可获得【福禄双收跨新年】奖励。
+          【活动内容】会员于2023.01.01-2023.01.06期间，完成以下任务即可获得【福禄双收跨新年】奖励。
         </div>
 
         <div class="box_table">
@@ -117,11 +160,11 @@
               <div>任务彩金</div>
               <div>每日任务上限</div>
             </div>
-            <div class="body" v-for="item in 3">
-              <div>电子平台</div>
-              <div>每月累计</div>
-              <div>电子平台</div>
-              <div>电子平台</div>
+            <div class="body" v-for="item in table1">
+              <div class="exceed">{{ item.label }}</div>
+              <div class="exceed">每日有效投放{{ item.task }}VNDK</div>
+              <div>{{ item.handsel }}VNDK</div>
+              <div>{{ item.limit }}</div>
             </div>
           </div>
           <div class="til2">
@@ -135,16 +178,14 @@
           </div>
           <div class="table">
             <div class="header">
-              <div>游戏平台</div>
-              <div>任务</div>
-              <div>任务彩金</div>
-              <div>每日任务上限</div>
+              <div>解锁人物</div>
+              <div>完成任务</div>
+              <div>额外加码彩金</div>
             </div>
-            <div class="body" v-for="item in 3">
-              <div>电子平台</div>
-              <div>每月累计</div>
-              <div>电子平台</div>
-              <div>电子平台</div>
+            <div class="body" v-for="item in table2">
+              <div>{{ item.people }}位</div>
+              <div>{{ item.task }}个</div>
+              <div>{{ item.handsel }}VNDK</div>
             </div>
           </div>
           <div class="til2">
@@ -153,53 +194,98 @@
         </div>
 
         <div class="desc">
-          【活动说明】<br />
+          <div class="state">【活动说明】</div>
           1.本优惠需会员在活动指定时间内进行点击领取彩金，超时即视为放弃该活动奖励。<br />
           2.本优惠成功领取后不能取消，所获彩金需在完成5倍流水(不含沙巴体育和彩票)即可提款。<br />
           3.本优惠所需存款和投注不与其他活动共享，可与返水活动共享。<br />
           4.本优惠仅对已结算并产生输赢结果的投注进行计算。所有拒绝投注，无效投注，打平，任何出现对押情况的投注及港赔≤0.7、欧赔≤1.7或其他对应赔率，串关投注将不计算在内。<br />
           5.本优惠遵循ManBetX万博【一般优惠规则与条款】。<br />
         </div>
-
-        <div class="gotop">回到顶部</div>
       </div>
       <img class="bottom_img" src="../../common/img/invalid-name@2x.png" />
+      <div class="topbox">
+        <div class="gotop" @click="backTop">回到顶部</div>
+      </div>
+    </div>
+
+    <div v-show="dialogVisible" class="model-box">
+      <div class="modelveng" @click="dialogVisible = false"></div>
+      <div class="modeltable">
+        <div class="table">
+          <div class="header three">
+            <div>序号</div>
+            <div>单号</div>
+            <div>彩金金额</div>
+            <div class="time">领取时间</div>
+          </div>
+          <div class="body three" v-for="(item, i) in listdata">
+            <div>{{ i + 1 }}</div>
+            <div>{{ item.order_no }}</div>
+            <div>{{ item.lottery_amount }}</div>
+            <div class="time">{{ item.created_at }}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
-import { Message, Progress } from "element-ui";
-Vue.use(Message).use(Progress);
+import { Message, Progress, Dialog, Table, Loading } from "element-ui";
+Vue.use(Message)
+  .use(Progress)
+  .use(Dialog)
+  .use(Table)
+  .use(Loading);
 
-import { christmasInfo, christmasLottery } from "@/api";
+import { getReceiveList, cumulativeTheme, getMoneyAdd, getunlock } from "@/api";
 export default {
   components: {
     Progress: Progress,
   },
   data() {
     return {
+      dialogVisible: false,
       isenv: "",
       color: "#eda567",
-      cersivelist: [
-        { label: "电子有效投注", num: 3, percent: 50, total: 120 },
+      listdata: [],
+      cersivelist: [],
+      table1: [
+        { label: "电子平台", task: 1500, handsel: 10, limit: 15 },
         {
-          label: "体育（不包含沙巴）/电竞平台",
-          num: 3,
-          percent: 80,
-          total: 90,
+          label: "体育/电竞平台(不含沙巴体育)",
+          task: 2800,
+          handsel: 28,
+          limit: 18,
         },
-        { label: "真人/棋牌平台", num: 3, percent: 30, total: 100 },
+        { label: "真人/棋牌平台", task: 3500, handsel: 35, limit: 20 },
+      ],
+      table2: [
+        { people: 3, task: 15, handsel: 38 },
+        { people: 5, task: 50, handsel: 108 },
+        { people: 8, task: 100, handsel: 188 },
       ],
 
       uid: "",
       platform: "",
       lang: "",
+
+      imglist: [],
+      activityContent: {},
+      user_id: 100336,
+      loading: "",
     };
   },
 
   async mounted() {
+    // 加载时显示loading
+    this.loading = this.$loading({
+      lock: true,
+      text: "Loading",
+      spinner: "el-icon-loading",
+      background: "rgba(0, 0, 0, 0.7)",
+    });
     // 先判断是不是微信端打开的
     if (/(micromessenger)/i.test(navigator.userAgent)) {
       // alert("微信");
@@ -216,6 +302,7 @@ export default {
         this.isenv = "pc";
       }
     }
+    this.getheme();
 
     let url = location.href;
     if (url.length > 0) {
@@ -228,26 +315,136 @@ export default {
           params[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
         }
       }
-      console.log("params", params);
       const { uid, platform, lang } = params;
       this.uid = uid;
       this.platform = platform;
       this.lang = lang;
       sessionStorage.setItem("lang", lang);
       sessionStorage.setItem("platform", platform);
-      console.log(this.$i18n);
       this.$i18n.locale = lang;
-      // await this.getinfo(uid);
+
+      this.getinfo();
+
+      window.addEventListener("scroll", this.scrollToTop);
     }
   },
+
+  destroyed() {
+    window.removeEventListener("scroll", this.scrollToTop);
+  },
   methods: {
-    async getinfo(uid) {
-      await christmasInfo({
-        user_id: uid,
-      }).then((res) => {
-        this.listdata = res.data;
-        console.log("测试or正式", process.env, this.platform);
+    backTop() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    },
+    // 解锁
+    async deblock() {
+      await getunlock({ user_id: this.user_id }).then((res) => {
+        if (res.code == 200) {
+          this.getheme();
+          Message({ type: "success", message: "解锁成功" });
+        } else {
+          Message({ type: "warning", message: res.msg });
+        }
       });
+    },
+    // 领取彩金
+    async getcollet(type) {
+      let { lottery_money, total_number } = this.activityContent;
+      let params = {
+        user_id: this.user_id,
+        lottery_amount: lottery_money,
+        lottery_type: type == 1 ? "theme_one" : "theme_two",
+        finish_count: total_number,
+      };
+      await getMoneyAdd(params).then((res) => {
+        if (res.code == 200) {
+          Message({ type: "success", message: "领取成功" });
+        } else {
+          Message({ type: "warning", message: res.msg });
+        }
+      });
+    },
+    // 关闭弹窗
+    cancelmodel() {
+      this.dialogVisible = false;
+    },
+
+    // 打开领奖记录
+    getRecive() {
+      this.dialogVisible = true;
+    },
+    // 领取记录
+    async getinfo() {
+      await getReceiveList({
+        page_size: 10,
+      }).then((res) => {
+        this.listdata = res.data.list;
+      });
+    },
+
+    // 主题
+    async getheme() {
+      let list = this.imglist;
+      list = [
+        { img: require("../../common/imgs/1@2x.png") },
+        { img: require("../../common/imgs/2@2x.png") },
+        { img: require("../../common/imgs/3@2x.png") },
+        { img: require("../../common/imgs/4@2x.png") },
+        { img: require("../../common/imgs/5@2x.png") },
+        { img: require("../../common/imgs/6@2x.png") },
+        { img: require("../../common/imgs/7@2x.png") },
+        { img: require("../../common/imgs/8@2x.png") },
+      ];
+      await cumulativeTheme({ user_id: this.user_id, platform_id: 10002 }).then(
+        (res) => {
+          if (res.code == 200) {
+            this.loading.close();
+            let data = res.data;
+            this.activityContent = data;
+            this.cersivelist = [
+              {
+                label: "电子有效投注",
+                num: data.jl_today_number,
+                percent: data.wire_valid_bet_amount,
+                total: 1500,
+              },
+              {
+                label: "体育（不包含沙巴）/电竞平台",
+                num: data.ai_today_number,
+                percent: data.sport_valid_bet_amount,
+                total: 2800,
+              },
+              {
+                label: "真人/棋牌平台",
+                num: data.ae_today_number,
+                percent: data.really_valid_bet_amount,
+                total: 3500,
+              },
+            ];
+
+            let delock_count = data.delock_count; //已解锁
+            let unlock_count = data.unlock_count; //可解锁
+            let notlock_count = data.notlock_count; //未解锁
+            // let delock_count = 1; //已解锁
+            // let unlock_count = 4; //可解锁
+            // let notlock_count = 3; //未解锁
+
+            list.forEach((item, i) => {
+              let idx = i + 1;
+              item.type = 3;
+              if (idx <= delock_count) {
+                item.type = 1;
+              }
+              if (idx > delock_count && idx <= unlock_count + delock_count) {
+                item.type = 2;
+              }
+            });
+            this.imglist = list;
+            this.$forceUpdate();
+          }
+        }
+      );
     },
   },
 };
@@ -277,7 +474,7 @@ r2(val){
     .pos1{
       position:absolute;
       left:0;
-      top:r2(500);
+      top:r2(700);
       width:r2(292);
       height:r2(343);
     }
@@ -287,6 +484,14 @@ r2(val){
       top:r2(10);
       width:r2(276);
       height:r2(518);
+    }
+    .pos3{
+      position:absolute;
+      left:0;
+      top:r2(10);
+      width:r2(276);
+      height:r2(518);
+      transform:rotateY(180deg)
     }
     .all_box{
       width:r2(1200);
@@ -377,18 +582,7 @@ r2(val){
       font-size:r2(20);
       line-height:r2(40)
     }
-    .gotop{
-       margin: auto;
-      width: r2(280);
-      height: r2(66);
-      line-height: r2(66);
-      text-align:center;
-      color:#fff;
-      font-size:r2(24)
-      border-radius: r2(8);
-      margin-top:r2(50)
-      background-image: linear-gradient(to bottom, #fe5c5c, #d82c2c), linear-gradient(to bottom, #d8d8d8, #d8d8d8);
-    }
+
 
     .bottom_img{
       width:100vw;
@@ -396,6 +590,24 @@ r2(val){
       position:absolute;
       bottom:0
       left:0
+    }
+    .topbox{
+      width:100vw;
+      display:flex;
+      justify-content:center;
+    }
+    .gotop{
+      position:absolute;
+       margin: auto;
+       bottom:r2(230)
+      width: r2(280);
+      height: r2(66);
+      line-height: r2(66);
+      text-align:center;
+      color:#fff;
+      font-size:r2(24)
+      border-radius: r2(8);
+      background-image: linear-gradient(to bottom, #fe5c5c, #d82c2c), linear-gradient(to bottom, #d8d8d8, #d8d8d8);
     }
   }
   .center_box{
@@ -490,6 +702,28 @@ r2(val){
             .el-progress{
               margin-top:r2(70);
             }
+            .perct{
+              // margin-top:r2(-65);
+              width: r2(190);
+              height: r2(44);
+              line-height: r2(44);
+              background-color: #fbedc9;
+              color: #c53a3a;
+              text-align center;
+              position:absolute;
+              left: r2(-0);
+              top:r2(12)
+              font-size:r2(18);
+              &:after{
+                position:absolute;
+                content:'';
+                border-top:r2(10) solid #fbedc9;
+                border-left:r2(11) solid transparent;
+                border-right:r2(11) solid transparent;
+                left:r2(75);
+                bottom: r2(-10);
+              }
+            }
             .total{
               width:r2(188);
               height:r2(44);
@@ -516,9 +750,9 @@ r2(val){
                 position:absolute;
                 content:'';
                 border-top:r2(8) solid #c53a3a;
-                border-left:r2(7) solid transparent;
-                border-right:r2(7) solid transparent;
-                left:r2(84);
+                border-left:r2(8) solid transparent;
+                border-right:r2(8) solid transparent;
+                left:r2(83.3);
                 bottom: r2(-8);
               }
             }
@@ -587,9 +821,10 @@ r2(val){
   }
   .receive{
     width:100vw;
-    height:r2(744);
+    height:r2(1004);
     background-image: linear-gradient(to bottom, #fffbf1, #fff6df);
     position:relative;
+    padding-top:r2(70)
     .pos1{
       position:absolute;
       left:0;
@@ -601,9 +836,44 @@ r2(val){
       position:absolute;
       right:0;
       top:r2(10);
-      width:r2(276);
-      height:r2(518);
+      width:r2(248);
+      height:r2(443);
     }
+    .pos3{
+      position:absolute;
+      left:0;
+      top:r2(10);
+      width:r2(248);
+      height:r2(443);
+      transform:rotateY(180deg)
+    }
+    .top_content{
+      width:r2(1200);
+      height:r2(166);
+      margin:0 auto;
+      background-image:url('../../common/img/invalid-name.png');
+      background-repeat:no-repeat;
+      background-size:cover;
+      display:flex;
+      justify-content:space-between;
+      .row_one{
+        // display:flex;
+        text-align:center;
+        color: #7e0000;
+        width:33.3%
+        color:rgb(246 232 194)
+        margin-top:r2(45)
+        div{
+          font-size:r2(30)
+          margin-bottom:r2(20)
+        }
+        p{
+          font-size:r2(20)
+          font-weight:400;
+          // width:r(245)
+        }
+      }
+  }
       .rece_box{
         width:r2(1200);
         margin:0 auto;
@@ -611,11 +881,11 @@ r2(val){
         align-self:center;
         vertical-align:middle
         .title{
-          padding-top:r2(50);
+          padding-top:r2(60);
           position:relative;
           width:r2(280);
           margin:0 auto;
-          margin-bottom:r2(20);
+          margin-bottom:r2(40);
           img{
             width:r2(280);
             height:auto;
@@ -629,7 +899,7 @@ r2(val){
             color:#f6e8c2;
             position:absolute;
             left:0;
-            top:r2(50)
+            top:r2(60)
           }
         }
         .row{
@@ -652,6 +922,28 @@ r2(val){
             margin-right:r2(100);
             .el-progress{
               margin-top:r2(70);
+            }
+
+            .perc{
+              width: r2(190);
+              height: r2(44);
+              line-height: r2(44);
+              background-color: #c53a3a;
+              color: #ffea81;
+              text-align center;
+              position:absolute;
+              left: r2(0);
+              font-size:r2(18);
+              top:r2(12);
+              &:after{
+                position:absolute;
+                content:'';
+                border-top:r2(10) solid #c53a3a;
+                border-left:r2(11) solid transparent;
+                border-right:r2(11) solid transparent;
+                left:r2(75);
+                bottom: r2(-10);
+              }
             }
             .total{
               width:r2(188);
@@ -679,9 +971,9 @@ r2(val){
                 position:absolute;
                 content:'';
                 border-top:r2(8) solid #fcdec2;
-                border-left:r2(7) solid transparent;
-                border-right:r2(7) solid transparent;
-                left:r2(84);
+                border-left:r2(8) solid transparent;
+                border-right:r2(8) solid transparent;
+                left:r2(83);
                 bottom: r2(-8);
               }
             }
@@ -717,7 +1009,7 @@ r2(val){
         .grand{
           display:flex;
           justify-content:space-between;
-          margin-top:r2(30);
+          margin-top:r2(40);
           .all{
             font-size:r2(30);
             color: #ce0000;
@@ -748,6 +1040,71 @@ r2(val){
   }
 
 }
+
+.model-box{
+  width:100vw;
+  height:100vh;
+  position:fixed;
+  z-index:20;
+  top:0;
+  left:0
+  .modelveng{
+    width:100vw;
+    height:100vh;
+    position:absolute;
+    top:0;
+    left:0
+    background:rgba(0,0,0,0.5)
+  }
+  .modeltable{
+  position:absolute;
+  width:60%;
+  // height:r(100);
+  background:#fff;
+  z-index:22;
+  left:20%
+  top:20%;
+  .table{
+    width:100%;
+    height:100%;
+    background:#e1544a;
+    // margin:r(5) 0;
+    .header{
+      display:flex;
+      justify-content space-between
+      height:r2(60);
+      line-height:r2(60);
+      div{
+        width:25%;
+        text-align:center;
+        color:#fff;
+        font-size:r2(11);
+      }
+    }
+
+    .body{
+      display:flex;
+      justify-content space-between
+      height:r2(60);
+      line-height:r2(60);
+      border-top:r(1) solid #ffeb8b;
+      div{
+        width:25%;
+        text-align:center;
+        color:#ffeb8b;;
+        font-size:r2(11);
+      }
+      .exceed{
+        height:r2(30);
+        line-height: r2(16);
+        margin-top:r2(5)
+      }
+    }
+
+  }
+}
+}
+
 /deep/ .el-progress-bar__outer{
   overflow:inherit !important;
 }
