@@ -294,7 +294,7 @@ export default {
       this.user_id = uid;
 
       this.getheme(uid);
-      this.getinfo();
+      this.getinfo(uid);
     }
   },
   methods: {
@@ -344,8 +344,9 @@ export default {
       this.dialogVisible = true;
     },
     // 领取记录
-    async getinfo() {
+    async getinfo(uid) {
       await getReceiveList({
+        user_id: uid,
         page_size: 10,
       }).then((res) => {
         this.listdata = res.data.list;
