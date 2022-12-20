@@ -315,10 +315,14 @@ export default {
     },
     // 领取彩金
     async getcollet(type) {
-      let { lottery_money, total_number } = this.activityContent;
+      let {
+        lottery_money,
+        total_number,
+        plus_lottery_money,
+      } = this.activityContent;
       let params = {
         user_id: this.user_id,
-        lottery_amount: lottery_money,
+        lottery_amount: type == 1 ? lottery_money : plus_lottery_money,
         lottery_type: type == 1 ? "theme_one" : "theme_two",
         finish_count: total_number,
       };
