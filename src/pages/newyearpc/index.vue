@@ -731,7 +731,7 @@ r2(val){
             /deep/ .el-progress-bar__outer{
               position:relative;
               // overflow:none !important;
-              background:#fbedc9;
+              background:#fbedc9 !important;
               border:r2(1) solid #f89797;
             }
             /deep/ .el-progress-bar__innerText{
@@ -952,7 +952,7 @@ r2(val){
             /deep/ .el-progress-bar__outer{
               position:relative;
               // overflow:none !important;
-              background:#fbedc9;
+              background:#fbedc9 !important;
               border:r2(1) solid #f89797;
             }
             /deep/ .el-progress-bar__innerText{
