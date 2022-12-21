@@ -16,7 +16,7 @@ function loadLocaleMessages() {
   return messages;
 }
 export const i18n = new VueI18n({
-  locale: "vi",
+  locale: "zh-CN",
   fallbackLocale: "vi",
   messages: loadLocaleMessages(),
 });

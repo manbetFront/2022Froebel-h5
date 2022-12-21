@@ -10,7 +10,7 @@
       <div class="top_content">
         <div class="row_one">
           <div>【{{ $t("opennum") }}】</div>
-          <p>2023/01/01 - 2023/01/06</p>
+          <p>2023.01.01-2023.01.06</p>
         </div>
         <div class="row_one">
           <div>【{{ $t("singledep") }}】</div>
@@ -30,7 +30,7 @@
         <div class="row" v-for="item in cersivelist">
           <div class="left">
             <div>{{ item.label }}:</div>
-            <div>{{ $t("todaycomp") }}：{{ item.num }}次</div>
+            <div>{{ $t("todaycomp") }}：{{ item.num }}{{ $t("degree") }}</div>
           </div>
           <div class="right">
             <Progress
@@ -62,6 +62,7 @@
             <div>{{ $t("pulldown") }}</div>
           </div>
         </div>
+        <div class="fenge"></div>
       </div>
     </div>
 
@@ -151,7 +152,10 @@
           </div>
         </div> -->
 
-        <div class="tips1">【{{ $t("drewover") }}】{{ $t("eggover") }}</div>
+        <div class="tips1">
+          <div class="actcon">【{{ $t("drewover") }}】</div>
+          <div>{{ $t("eggover") }}</div>
+        </div>
 
         <div class="box_table">
           <div class="til">① {{ $t("themaone") }}</div>
@@ -200,6 +204,7 @@
         </div>
       </div>
       <img class="bottom_img" src="../../common/img/invalid-name@2x.png" />
+      <div class="fenge"></div>
       <div class="topbox">
         <div class="gotop" @click="backTop">{{ $t("gotop") }}</div>
       </div>
@@ -277,12 +282,12 @@ export default {
 
   async mounted() {
     // 加载时显示loading
-    // this.loading = this.$loading({
-    //   lock: true,
-    //   text: "Loading",
-    //   spinner: "el-icon-loading",
-    //   background: "rgba(0, 0, 0, 0.7)",
-    // });
+    this.loading = this.$loading({
+      lock: true,
+      text: "Loading",
+      spinner: "el-icon-loading",
+      background: "rgba(0, 0, 0, 0.7)",
+    });
 
     let url = location.href;
     if (url.length > 0) {
@@ -312,7 +317,7 @@ export default {
       await getunlock({ user_id: this.user_id }).then((res) => {
         if (res.code == 200) {
           this.getheme(this.user_id);
-          this.$message({ type: "success", message: "领取成功" });
+          this.$message({ type: "success", message: this.$t("unlocks") });
         } else {
           this.$message({ type: "warning", message: res.msg });
         }
@@ -320,16 +325,25 @@ export default {
     },
     // 领取彩金
     async getcollet(type) {
-      let { lottery_money, total_number } = this.activityContent;
+      let {
+        lottery_money,
+        total_number,
+        plus_lottery_money,
+      } = this.activityContent;
       let params = {
         user_id: this.user_id,
-        lottery_amount: lottery_money,
+        lottery_amount: type == 1 ? lottery_money : plus_lottery_money,
         lottery_type: type == 1 ? "theme_one" : "theme_two",
         finish_count: total_number,
       };
       await getMoneyAdd(params).then((res) => {
         if (res.code == 200) {
-          this.$message({ type: "success", message: "领取成功" });
+          this.$message({
+            type: "success",
+            message: `Xin chúc mừng Quý khách đã gặt hái được【 ${
+              type == 1 ? lottery_money : plus_lottery_money
+            }Tiền thưởng】!`,
+          });
         } else {
           this.$message({ type: "warning", message: res.msg });
         }
@@ -370,7 +384,7 @@ export default {
       await cumulativeTheme({ user_id: user_id, platform_id: 10002 }).then(
         (res) => {
           if (res.code == 200) {
-            // this.loading.close();
+            this.loading.close();
             let data = res.data;
             this.activityContent = data;
             this.cersivelist = [
@@ -441,7 +455,7 @@ r2(val){
   }
   .activity_content{
     width:100vw;
-    height:r2(1785);
+    // height:r2(1785);
     background-image: linear-gradient(to bottom, #fffbf1, #fff6df);
     position:relative;
     .pos1{
@@ -507,13 +521,18 @@ r2(val){
       font-size: r2(24);
       color: #7e0000;
       margin-top:r2(40)
+      display:flex;
+      .actcon{
+        width:r2(500)
+      }
     }
 
     .box_table{
       margin-top:r2(80);
       .til{
         font-size: r2(22);
-      color: #7e0000;
+        color: #7e0000;
+        line-height:r2(22)
       }
       .table{
         background:#e1544a;
@@ -533,7 +552,8 @@ r2(val){
         .body{
           display:flex;
           justify-content space-between
-          height:r2(66);
+          // height:r2(66);
+          padding:r2(10) 0
           line-height:r2(66);
           border-top:r2(1) solid #ffeb8b;
           div{
@@ -541,6 +561,11 @@ r2(val){
             text-align:center;
             color:#ffeb8b;;
             font-size:r2(18);
+          }
+          .exceed{
+            height:r2(40);
+            line-height: r2(24);
+            margin-top:r2(9)
           }
         }
       }
@@ -556,7 +581,9 @@ r2(val){
       line-height:r2(40)
     }
 
-
+.fenge{
+  height:r2(380)
+}
     .bottom_img{
       width:100vw;
       height:auto;
@@ -663,6 +690,7 @@ r2(val){
           padding: r2(10) r2(15);
           margin-bottom:r2(25);
           .left{
+            width:r2(400)
             div{
               margin:r2(20) 0;
               color:#ffefb9
@@ -794,7 +822,7 @@ r2(val){
   }
   .receive{
     width:100vw;
-    height:r2(1004);
+    // height:r2(1004);
     background-image: linear-gradient(to bottom, #fffbf1, #fff6df);
     position:relative;
     padding-top:r2(70)
@@ -885,6 +913,7 @@ r2(val){
           padding: r2(10) r2(15);
           margin-bottom:r2(25);
           .left{
+            width:r2(400)
             div{
               margin:r2(20) 0;
             }
@@ -893,6 +922,7 @@ r2(val){
             width:r2(710);
             position:relative;
             margin-right:r2(100);
+            margin-left:r2(20)
             .el-progress{
               margin-top:r2(70);
             }
@@ -987,6 +1017,9 @@ r2(val){
             font-size:r2(30);
             color: #ce0000;
             line-height:r2(66);
+            span{
+              margin-left:r2(20)
+            }
           }
           .btn{
             position:relative;
@@ -1008,6 +1041,11 @@ r2(val){
               text-align:center;
             }
           }
+        }
+
+        .fenge{
+          width:100%;
+          height:r2(50)
         }
       }
   }
@@ -1066,11 +1104,6 @@ r2(val){
         text-align:center;
         color:#ffeb8b;;
         font-size:r2(11);
-      }
-      .exceed{
-        height:r2(30);
-        line-height: r2(16);
-        margin-top:r2(5)
       }
     }
 

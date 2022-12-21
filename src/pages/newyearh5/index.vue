@@ -3,9 +3,9 @@
     <img class="banner" src="../../common/imgs/banner@2x.png" />
     <div class="top_box">
       <div class="top_content">
-        <div class="row_one">
+        <div class="row_one time">
           <div>【{{ $t("opennum") }}】</div>
-          <p>2023/01/01 - 2023/01/06</p>
+          <p>2023.01.01-2023.01.06</p>
         </div>
         <div class="row_one">
           <div>【{{ $t("singledep") }}】</div>
@@ -30,8 +30,10 @@
         <div class="row" v-for="item in cersivelist">
           <div class="left">
             <div>
-              {{ item.label }}: {{ $t("todaycomp") }}：{{ item.num
-              }}{{ $t("degree") }}
+              {{ item.label }}:
+              <span class="mar"
+                >{{ $t("todaycomp") }}：{{ item.num }}{{ $t("degree") }}</span
+              >
             </div>
           </div>
           <div class="right">
@@ -133,7 +135,7 @@
     </div>
 
     <div class="activity_content">
-      <img class="pos1" src="../../common/img/2-2@2x.png" />
+      <img class="pos1" src="../../common/img/denglong.png" />
       <img class="pos2" src="../../common/img/denglong.png" />
       <div class="all_box">
         <div class="title">
@@ -148,17 +150,17 @@
           </div>
         </div>
 
-        <div class="box_table">
+        <div class="box_table ">
           <div class="til">① {{ $t("themaone") }}。</div>
           <div class="table">
-            <div class="header">
+            <div class="header morehead">
               <div>{{ $t("game") }}</div>
               <div>{{ $t("task") }}</div>
               <div>{{ $t("taskmon") }}</div>
-              <div>{{ $t("tasklimit") }}</div>
+              <div class="more">{{ $t("tasklimit") }}</div>
             </div>
-            <div class="body" v-for="item in table1">
-              <div class="exceed">{{ item.label }}</div>
+            <div class="body moretable" v-for="(item, i) in table1">
+              <div :class="`exceed ex${i}`">{{ item.label }}</div>
               <div class="exceed">{{ $t("valid") }}{{ item.task }}VNDK</div>
               <div>{{ item.handsel }}VNDK</div>
               <div>{{ item.limit }}</div>
@@ -194,10 +196,12 @@
           {{ $t("actinfo5") }}<br />
         </div>
       </div>
+      <div class="fenge"></div>
+
+      <img class="bottom_img" src="../../common/img/invalid-name@2x.png" />
       <div class="topbox">
         <div class="gotop" @click="backTop">{{ $t("gotop") }}</div>
       </div>
-      <img class="bottom_img" src="../../common/img/invalid-name@2x.png" />
     </div>
 
     <div v-show="dialogVisible" class="model-box">
@@ -272,12 +276,12 @@ export default {
 
   async mounted() {
     // 加载时显示loading
-    // this.loading = this.$loading({
-    //   lock: true,
-    //   text: "Loading",
-    //   spinner: "el-icon-loading",
-    //   background: "rgba(0, 0, 0, 0.7)",
-    // });
+    this.loading = this.$loading({
+      lock: true,
+      text: "Loading",
+      spinner: "el-icon-loading",
+      background: "rgba(0, 0, 0, 0.7)",
+    });
 
     let url = location.href;
     if (url.length > 0) {
@@ -307,7 +311,7 @@ export default {
       await getunlock({ user_id: this.user_id }).then((res) => {
         if (res.code == 200) {
           this.getheme(this.user_id);
-          this.$message({ type: "success", message: "领取成功" });
+          this.$message({ type: "success", message: this.$t("unlocks") });
         } else {
           this.$message({ type: "warning", message: res.msg });
         }
@@ -328,7 +332,12 @@ export default {
       };
       await getMoneyAdd(params).then((res) => {
         if (res.code == 200) {
-          this.$message({ type: "success", message: "领取成功" });
+          this.$message({
+            type: "success",
+            message: `Xin chúc mừng Quý khách đã gặt hái được【 ${
+              type == 1 ? lottery_money : plus_lottery_money
+            }Tiền thưởng】!`,
+          });
         } else {
           this.$message({ type: "warning", message: res.msg });
         }
@@ -369,7 +378,7 @@ export default {
       await cumulativeTheme({ user_id: user_id, platform_id: 10002 }).then(
         (res) => {
           if (res.code == 200) {
-            // this.loading.close();
+            this.loading.close();
             let data = res.data;
             this.activityContent = data;
             this.cersivelist = [
@@ -453,30 +462,33 @@ r2(val){
     display:flex;
     justify-content:space-between;
     .row_one{
-        // display:flex;
-        text-align:center;
-        color: #7e0000;
-        width:33.3%
-        color:rgb(246 232 194)
-        margin-top:r(22)
-        div{
-          font-size:r(13)
-          margin-bottom:r(12)
-        }
-        p{
-          font-size:r(10)
-          font-weight:400;
-          // width:r(245)
-        }
-        .more{
-          line-height:r(18)
-          margin-top:r(-2)
-        }
+      // display:flex;
+      text-align:center;
+      color: #7e0000;
+      width:33.3%
+      color:rgb(246 232 194)
+      margin-top:r(22)
+      div{
+        font-size:r(13)
+        margin-bottom:r(12)
       }
+      p{
+        font-size:r(10)
+        font-weight:400;
+        // width:r(245)
+      }
+      .more{
+        line-height:r(18)
+        margin-top:r(-2)
+      }
+    }
+    .time{
+      width:38%;
+    }
   }
   .activity_content{
     width:100vw;
-    height:r(970);
+    // height:r(970);
     background-image: linear-gradient(to bottom, #fffbf1, #fff6df);
     position:relative;
     .pos1{
@@ -521,6 +533,7 @@ r2(val){
         // text-align:center;
         color: #7e0000;
         div{
+          width:r(270)
           font-size:r(14)
           margin-bottom:r(12)
           color:rgb(126 0 0)
@@ -542,6 +555,7 @@ r2(val){
       .til{
         font-size: r(12);
         color: #7e0000;
+        line-height:r(14)
       }
       .table{
         background:#e1544a;
@@ -552,10 +566,28 @@ r2(val){
           height:r(40);
           line-height:r(40);
           div{
-            width:25%;
+            width:33.3%;
             text-align:center;
             color:#fff;
             font-size:r(11);
+          }
+          .more{
+            line-height:r(15);
+            margin-top:r(5)
+          }
+        }
+        .morehead{
+          div:nth-child(1){
+            width:30%;
+          }
+          div:nth-child(2){
+            width:30%;
+          }
+          div:nth-child(3){
+            width:20%;
+          }
+          div:nth-child(4){
+            width:20%;
           }
         }
 
@@ -566,7 +598,6 @@ r2(val){
           line-height:r(40);
           border-top:r(0.5) solid #ffeb8b;
           div{
-            width:25%;
             text-align:center;
             color:#ffeb8b;;
             font-size:r(11);
@@ -575,6 +606,35 @@ r2(val){
             height:r(30);
             line-height: r(16);
             margin-top:r(5)
+          }
+        }
+        .moretable{
+          height:r(70);
+          line-height:r(70);
+          div:nth-child(1){
+            width:30%
+          }
+          div:nth-child(2){
+            width:30%
+          }
+          div:nth-child(3){
+            width:20%
+          }
+          div:nth-child(4){
+            width:20%
+          }
+          .exceed{
+            height:r(50);
+            line-height: r(16);
+            margin-top:r(10)
+          }
+          .ex0{
+            height:r(60);
+            line-height:r(60)
+          }
+          .ex2{
+            height:r(60);
+            margin-top:r(20)
           }
         }
         .three{
@@ -599,6 +659,9 @@ r2(val){
       }
     }
 
+    .fenge{
+      height:r(140)
+    }
     .topbox{
       width:100vw;
       display:flex;
@@ -852,7 +915,7 @@ r2(val){
     .pos1{
       position:absolute;
       left:0;
-      bottom:0;
+      bottom:r(-15);
       width:r(54.9);
       height:r(64);
     }
@@ -912,6 +975,9 @@ r2(val){
           .left{
             div{
               margin:r(10) 0;
+              .mar{
+                margin-left:r(15)
+              }
             }
           }
           .right{
@@ -1007,7 +1073,7 @@ r2(val){
         .grand{
           display:flex;
           justify-content:space-between;
-          margin:0 r2(10);
+          margin:0 r(15);
           margin-top:r(15);
 
           .all{

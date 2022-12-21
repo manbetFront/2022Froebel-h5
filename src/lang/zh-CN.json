@@ -50,5 +50,8 @@
   "index": "序号",
   "order": "单号",
   "color": "彩金金额",
-  "gettime": "领取时间"
+  "gettime": "领取时间",
+
+  "congra": "恭喜您获得【多少元彩金】！",
+  "unlocks": "解锁成功"
 }
