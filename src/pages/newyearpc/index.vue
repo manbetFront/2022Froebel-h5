@@ -328,7 +328,7 @@ export default {
 
       uid: "",
       platform: "",
-      lang: "",
+      lang: "zh-CN",
 
       imglist: [
         { img: require("../../common/imgs/1@2x.png"), type: 3 },
@@ -371,7 +371,9 @@ export default {
       const { uid, lang } = params;
       this.user_id = uid;
       this.lang = lang;
-      this.$i18n.locale = lang;
+      if (lang) {
+        this.$i18n.locale = lang;
+      }
 
       this.getheme(uid);
       this.getinfo(uid);
@@ -504,7 +506,6 @@ export default {
 
             let table1 = this.table1;
             this.$set(this.table1, 0, table1[0]);
-            this.$set(this.table1, 1, table1[1]);
           } else {
             this.loading.close();
             // this.$message({ type: "warning", message: res.msg });
