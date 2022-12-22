@@ -504,9 +504,30 @@ export default {
             this.imglist = list;
             this.$set(this.imglist, 0, list[0]);
 
-            let table1 = this.table1;
+            let table1 = [
+              {
+                label: this.$t("granddep"),
+                task: 1500,
+                handsel: 10,
+                limit: 15,
+              },
+              {
+                label: this.$t("getmeet"),
+                task: 2800,
+                handsel: 28,
+                limit: 18,
+              },
+              {
+                label: this.$t("opendrew"),
+                task: 3500,
+                handsel: 35,
+                limit: 20,
+              },
+            ];
+            this.table1 = table1;
             this.$set(this.table1, 0, table1[0]);
             this.$set(this.table1, 1, table1[1]);
+            this.$set(this.table1, 2, table1[2]);
           } else {
             this.loading.close();
             // this.$message({ type: "warning", message: res.msg });
