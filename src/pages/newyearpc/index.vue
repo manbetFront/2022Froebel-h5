@@ -38,7 +38,11 @@
               :color="color"
               :text-inside="true"
               :stroke-width="10"
-              :percentage="Number(item.percent / item.total) * 100"
+              :percentage="
+                Number(item.percent / item.total) * 100 > 100
+                  ? 100
+                  : Number(item.percent / item.total) * 100
+              "
             ></Progress>
             <div class="perc">
               {{ parseFloat(item.percent).toFixed(3) }}VNDK
@@ -104,7 +108,11 @@
               :color="color"
               :text-inside="true"
               :stroke-width="10"
-              :percentage="Number(activityContent.amount_total / 3188) * 100"
+              :percentage="
+                Number(activityContent.amount_total / 3188) * 100 > 100
+                  ? 100
+                  : Number(activityContent.amount_total / 3188) * 100
+              "
             ></Progress>
             <div class="perct">
               {{ parseFloat(activityContent.amount_total).toFixed(3) }}VNDK
