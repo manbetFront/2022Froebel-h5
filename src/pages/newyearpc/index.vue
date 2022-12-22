@@ -153,7 +153,9 @@
         </div> -->
 
         <div class="tips1">
-          <div class="actcon">【{{ $t("drewover") }}】</div>
+          <div :class="lang == 'vi' ? 'actcon' : ''">
+            【{{ $t("drewover") }}】
+          </div>
           <div>{{ $t("eggover") }}</div>
         </div>
 
@@ -213,6 +215,7 @@
     <div v-show="dialogVisible" class="model-box">
       <div class="modelveng" @click="dialogVisible = false"></div>
       <div class="modeltable">
+        <div class="chief">{{ $t("grandbet") }}</div>
         <div class="table">
           <div class="header three">
             <div>{{ $t("index") }}</div>
@@ -223,8 +226,41 @@
           <div class="body three" v-for="(item, i) in listdata">
             <div>{{ i + 1 }}</div>
             <div>{{ item.order_no }}</div>
-            <div>{{ item.lottery_amount }}</div>
+            <div>{{ parseFloat(item.lottery_amount).toFixed(3) }}</div>
             <div class="time">{{ item.created_at }}</div>
+          </div>
+        </div>
+        <img
+          class="dele"
+          @click="dialogVisible = false"
+          src="../../common/img/del.png"
+        />
+      </div>
+    </div>
+
+    <div v-show="darwdialog" class="model-box">
+      <div class="modelveng" @click="darwdialog = false"></div>
+      <div class="back_box">
+        <div class="post">
+          <img class="back" src="../../common/img/tips2.png" />
+          <div class="num">{{ parseFloat(money).toFixed(3) }}VNDK</div>
+          <div class="cons">{{ $t("congra") }}</div>
+          <div class="dele">
+            <img @click="darwdialog = false" src="../../common/img/del.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-show="showlogin" class="model-box">
+      <div class="modelveng" @click="showlogin = false"></div>
+      <div class="login_box">
+        <div class="post">
+          <img class="back" src="../../common/img/top.png" />
+          <div class="num">{{ $t("respect") }}</div>
+          <div class="cons">{{ $t("login") }}</div>
+          <div class="dele">
+            <img @click="showlogin = false" src="../../common/img/del.png" />
           </div>
         </div>
       </div>
@@ -248,10 +284,32 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      darwdialog: false,
+      showlogin: false,
+      money: "",
       isenv: "",
       color: "#eda567",
       listdata: [],
-      cersivelist: [],
+      cersivelist: [
+        {
+          label: this.$t("granddep"),
+          num: 0,
+          percent: 0,
+          total: 1500,
+        },
+        {
+          label: this.$t("getmeet"),
+          num: 0,
+          percent: 0,
+          total: 2800,
+        },
+        {
+          label: this.$t("opendrew"),
+          num: 0,
+          percent: 0,
+          total: 3500,
+        },
+      ],
       table1: [
         { label: this.$t("granddep"), task: 1500, handsel: 10, limit: 15 },
         {
@@ -272,11 +330,21 @@ export default {
       platform: "",
       lang: "",
 
-      imglist: [],
+      imglist: [
+        { img: require("../../common/imgs/1@2x.png"), type: 3 },
+        { img: require("../../common/imgs/2@2x.png"), type: 3 },
+        { img: require("../../common/imgs/3@2x.png"), type: 3 },
+        { img: require("../../common/imgs/4@2x.png"), type: 3 },
+        { img: require("../../common/imgs/5@2x.png"), type: 3 },
+        { img: require("../../common/imgs/6@2x.png"), type: 3 },
+        { img: require("../../common/imgs/7@2x.png"), type: 3 },
+        { img: require("../../common/imgs/8@2x.png"), type: 3 },
+      ],
       activityContent: {},
       user_id: 100336,
 
       loading: "",
+      lang: "",
     };
   },
 
@@ -300,8 +368,10 @@ export default {
           params[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
         }
       }
-      const { uid } = params;
+      const { uid, lang } = params;
       this.user_id = uid;
+      this.lang = lang;
+      this.$i18n.locale = lang;
 
       this.getheme(uid);
       this.getinfo(uid);
@@ -330,6 +400,11 @@ export default {
         total_number,
         plus_lottery_money,
       } = this.activityContent;
+      let money = type == 1 ? lottery_money : plus_lottery_money;
+      if (!Number(money)) {
+        this.$message({ type: "warning", message: this.$t("noerr") });
+        return;
+      }
       let params = {
         user_id: this.user_id,
         lottery_amount: type == 1 ? lottery_money : plus_lottery_money,
@@ -338,12 +413,8 @@ export default {
       };
       await getMoneyAdd(params).then((res) => {
         if (res.code == 200) {
-          this.$message({
-            type: "success",
-            message: `Xin chúc mừng Quý khách đã gặt hái được【 ${
-              type == 1 ? lottery_money : plus_lottery_money
-            }Tiền thưởng】!`,
-          });
+          this.darwdialog = true;
+          this.money = money;
         } else {
           this.$message({ type: "warning", message: res.msg });
         }
@@ -370,8 +441,7 @@ export default {
 
     // 主题
     async getheme(user_id) {
-      let list = this.imglist;
-      list = [
+      let list = [
         { img: require("../../common/imgs/1@2x.png") },
         { img: require("../../common/imgs/2@2x.png") },
         { img: require("../../common/imgs/3@2x.png") },
@@ -387,7 +457,7 @@ export default {
             this.loading.close();
             let data = res.data;
             this.activityContent = data;
-            this.cersivelist = [
+            let reslist = [
               {
                 label: this.$t("granddep"),
                 num: data.jl_today_number,
@@ -407,6 +477,10 @@ export default {
                 total: 3500,
               },
             ];
+            this.cersivelist = reslist;
+            this.$set(this.cersivelist, 0, reslist[0]);
+            this.$set(this.cersivelist, 1, reslist[1]);
+            this.$set(this.cersivelist, 2, reslist[2]);
 
             let delock_count = data.delock_count; //已解锁
             let unlock_count = data.unlock_count; //可解锁
@@ -426,9 +500,15 @@ export default {
               }
             });
             this.imglist = list;
-            this.$forceUpdate();
+            this.$set(this.imglist, 0, list[0]);
+
+            let table1 = this.table1;
+            this.$set(this.table1, 0, table1[0]);
+            this.$set(this.table1, 1, table1[1]);
           } else {
-            this.$message({ type: "warning", message: res.msg });
+            this.loading.close();
+            // this.$message({ type: "warning", message: res.msg });
+            this.showlogin = true;
           }
         }
       );
@@ -532,7 +612,7 @@ r2(val){
       .til{
         font-size: r2(22);
         color: #7e0000;
-        line-height:r2(22)
+        line-height:r2(28)
       }
       .table{
         background:#e1544a;
@@ -564,8 +644,8 @@ r2(val){
           }
           .exceed{
             height:r2(40);
-            line-height: r2(24);
-            margin-top:r2(9)
+            line-height: r2(30);
+            margin-top:r2(7)
           }
         }
       }
@@ -1070,15 +1150,24 @@ r2(val){
   .modeltable{
   position:absolute;
   width:60%;
-  // height:r(100);
-  background:#fff;
+  // background:#fff;
   z-index:22;
   left:20%
   top:20%;
+  .chief{
+    width:100%;
+    height:r2(60);
+    line-height:r2(60)
+    color:#fff;
+    background:#e1544a;
+    font-size:r2(15)
+    text-align:center;
+  }
   .table{
     width:100%;
-    height:100%;
-    background:#e1544a;
+    height:r2(600);
+    background:#fff;
+    overflow:auto
     // margin:r(5) 0;
     .header{
       display:flex;
@@ -1088,7 +1177,7 @@ r2(val){
       div{
         width:25%;
         text-align:center;
-        color:#fff;
+        color:#000;
         font-size:r2(11);
       }
     }
@@ -1098,17 +1187,118 @@ r2(val){
       justify-content space-between
       height:r2(60);
       line-height:r2(60);
-      border-top:r(1) solid #ffeb8b;
+      border-top:r(1) solid #ddd;
       div{
         width:25%;
         text-align:center;
-        color:#ffeb8b;;
+        color:#000;
         font-size:r2(11);
       }
     }
 
   }
+  .dele{
+    position:absolute;
+    bottom:r(-150)
+    width:r2(60);
+    height:auto;
+    left:50%;
+    margin-left:r2(-30)
+  }
 }
+}
+
+
+.back_box{
+  position:absolute;
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:22;
+  .post{
+    width:r2(500);
+    height:auto
+    position:relative;
+    .back{
+      width:100%;
+      height:auto;
+    }
+    .num{
+      font-size:r2(16);
+      color:rgb(250, 74, 5);
+      position:absolute;
+      width:100%;
+      text-align:center;
+      top:r2(85)
+    }
+    .cons{
+      font-size:r2(16);
+      color:#fff;
+      position:absolute;
+      margin:0 auto
+      width:80%;
+      left:10%;
+      text-align:center;
+      top:r2(295)
+    }
+    .dele{
+      width:100%;
+      text-align:center
+      img{
+        width:r2(74);
+        height:auto;
+      }
+    }
+  }
+
+}
+
+.login_box{
+  position:absolute;
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:22;
+  .post{
+    width:r2(500);
+    height:auto
+    position:relative;
+    .back{
+      width:100%;
+      height:auto;
+    }
+    .num{
+      font-size:r2(20);
+      color:rgb(255 236 187);
+      position:absolute;
+      width:100%;
+      text-align:center;
+      top:r2(30)
+    }
+    .cons{
+      font-size:r2(16);
+      color:rgb(169 33 2);
+      position:absolute;
+      width:80%;
+      text-align:center;
+      left:10%
+      top:r2(120)
+      line-height:r2(30)
+    }
+
+    .dele{
+      width:100%;
+      text-align:center
+      img{
+        width:r2(54);
+        height:auto;
+      }
+    }
+  }
 }
 
 /deep/ .el-progress-bar__outer{
