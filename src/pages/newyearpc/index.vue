@@ -506,6 +506,7 @@ export default {
 
             let table1 = this.table1;
             this.$set(this.table1, 0, table1[0]);
+            this.$set(this.table1, 1, table1[1]);
           } else {
             this.loading.close();
             // this.$message({ type: "warning", message: res.msg });
