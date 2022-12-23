@@ -426,6 +426,7 @@ export default {
         if (res.code == 200) {
           this.darwdialog = true;
           this.money = money;
+          this.getheme(this.user_id);
         } else {
           this.$message({ type: "warning", message: res.msg });
         }
