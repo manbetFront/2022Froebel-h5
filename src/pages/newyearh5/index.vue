@@ -393,6 +393,9 @@ export default {
 
       this.getheme(uid);
       this.getinfo(uid);
+      setTimeout(() => {
+        this.getheme(uid);
+      }, 1000);
     }
   },
   methods: {
