@@ -357,14 +357,6 @@ export default {
   },
 
   async mounted() {
-    // 加载时显示loading
-    this.loading = this.$loading({
-      lock: true,
-      text: "Loading",
-      spinner: "el-icon-loading",
-      background: "rgba(0, 0, 0, 0.7)",
-    });
-
     let url = location.href;
     if (url.length > 0) {
       //判断是否携带参数
@@ -376,12 +368,27 @@ export default {
           params[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
         }
       }
+
       const { uid, lang } = params;
+
+      const isbro = this.judgeBrowser();
+      console.log(isbro);
+      if (isbro == "h5") {
+        this.$router.replace(`/newyear_h5?uid=${uid}&lang=${lang}`);
+      }
       this.user_id = uid;
       this.lang = lang;
       if (lang) {
         this.$i18n.locale = lang;
       }
+
+      // 加载时显示loading
+      this.loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
 
       this.getheme(uid);
       this.getinfo(uid);
@@ -544,6 +551,27 @@ export default {
           }
         }
       );
+    },
+
+    judgeBrowser() {
+      let isenv = "";
+      // 先判断是不是微信端打开的
+      if (/(micromessenger)/i.test(navigator.userAgent)) {
+        // alert("微信");
+        isenv = "wechat";
+      } else {
+        // alert("普通浏览器");
+        // 判断h5还是pc true就是h5
+        let client = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        );
+        if (client) {
+          isenv = "h5";
+        } else {
+          isenv = "pc";
+        }
+      }
+      return isenv;
     },
   },
 };
