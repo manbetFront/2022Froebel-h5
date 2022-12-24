@@ -370,10 +370,10 @@ export default {
         }
       }
 
-      const { uid, lang } = params;
+      let { uid, lang } = params;
+      uid = Number(uid) ? uid : "";
 
       const isbro = this.judgeBrowser();
-      console.log(isbro);
       if (isbro == "pc") {
         this.$router.replace(`/newyear_pc?uid=${uid}&lang=${lang}`);
       }
@@ -390,7 +390,7 @@ export default {
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)",
       });
-
+      console.log("uid", uid);
       this.getheme(uid);
       this.getinfo(uid);
       setTimeout(() => {
