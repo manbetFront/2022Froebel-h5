@@ -370,7 +370,8 @@ export default {
         }
       }
 
-      const { uid, lang } = params;
+      let { uid, lang } = params;
+      uid = Number(uid) ? uid : "";
 
       const isbro = this.judgeBrowser();
       console.log(isbro);
