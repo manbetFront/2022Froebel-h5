@@ -392,7 +392,7 @@ export default {
       });
 
       this.getheme(uid);
-      this.getinfo(uid);
+      // this.getinfo(uid);
       setTimeout(() => {
         this.getheme(uid);
       }, 1000);
@@ -449,7 +449,7 @@ export default {
 
     // 打开领奖记录
     getRecive() {
-      this.dialogVisible = true;
+      this.getinfo(this.user_id);
     },
     // 领取记录
     async getinfo(uid) {
@@ -458,6 +458,7 @@ export default {
         page_size: 10,
       }).then((res) => {
         this.listdata = res.data.list;
+        this.dialogVisible = true;
       });
     },
 
