@@ -16,8 +16,8 @@ function loadLocaleMessages() {
   return messages;
 }
 export const i18n = new VueI18n({
-  locale: "zh-CN",
-  fallbackLocale: "zh-CN",
+  locale: "vi",
+  fallbackLocale: "vi",
   messages: loadLocaleMessages(),
 });
 i18n.setLang = (lang) => {

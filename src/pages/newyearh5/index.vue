@@ -337,7 +337,7 @@ export default {
 
       uid: "",
       platform: "",
-      lang: "zh-CN",
+      lang: "vi",
 
       imglist: [
         { img: require("../../common/imgs/1@2x.png"), type: 3 },
@@ -349,11 +349,15 @@ export default {
         { img: require("../../common/imgs/7@2x.png"), type: 3 },
         { img: require("../../common/imgs/8@2x.png"), type: 3 },
       ],
-      activityContent: {},
+      activityContent: {
+        total_number: 0,
+        lottery_money: 0,
+        amount_total: 0,
+        plus_lottery_money: 0,
+      },
       user_id: 100336,
 
       loading: "",
-      lang: "",
     };
   },
 
@@ -375,13 +379,14 @@ export default {
 
       const isbro = this.judgeBrowser();
       if (isbro == "pc") {
-        this.$router.replace(`/newyear_pc?uid=${uid}&lang=${lang}`);
+        this.$router.replace(`/newyear_pc?uid=${uid}`);
       }
       this.user_id = uid;
-      this.lang = lang;
-      if (lang) {
-        this.$i18n.locale = lang;
-      }
+
+      // if (lang) {
+      //   this.lang = lang;
+      //   this.$i18n.locale = lang;
+      // }
 
       // 加载时显示loading
       this.loading = this.$loading({
@@ -392,7 +397,7 @@ export default {
       });
       console.log("uid", uid);
       this.getheme(uid);
-      this.getinfo(uid);
+      // this.getinfo(uid);
       setTimeout(() => {
         this.getheme(uid);
       }, 1000);
@@ -405,6 +410,10 @@ export default {
     },
     // 解锁
     async deblock() {
+      if (!this.user_id) {
+        this.showlogin = true;
+        return;
+      }
       await getunlock({ user_id: this.user_id }).then((res) => {
         if (res.code == 200) {
           this.getheme(this.user_id);
@@ -416,6 +425,10 @@ export default {
     },
     // 领取彩金
     async getcollet(type) {
+      if (!this.user_id) {
+        this.showlogin = true;
+        return;
+      }
       let {
         lottery_money,
         total_number,
@@ -449,15 +462,20 @@ export default {
 
     // 打开领奖记录
     getRecive() {
-      this.dialogVisible = true;
+      if (!this.user_id) {
+        this.showlogin = true;
+        return;
+      }
+      this.getinfo(this.user_id);
     },
     // 领取记录
     async getinfo(uid) {
       await getReceiveList({
         user_id: uid,
-        page_size: 10,
+        page_size: 9999,
       }).then((res) => {
         this.listdata = res.data.list;
+        this.dialogVisible = true;
       });
     },
 
