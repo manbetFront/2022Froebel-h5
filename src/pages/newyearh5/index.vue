@@ -411,6 +411,10 @@ export default {
     },
     // 解锁
     async deblock() {
+      if (!this.user_id) {
+        this.showlogin = true;
+        return;
+      }
       await getunlock({ user_id: this.user_id }).then((res) => {
         if (res.code == 200) {
           this.getheme(this.user_id);
@@ -422,6 +426,10 @@ export default {
     },
     // 领取彩金
     async getcollet(type) {
+      if (!this.user_id) {
+        this.showlogin = true;
+        return;
+      }
       let {
         lottery_money,
         total_number,
@@ -455,6 +463,10 @@ export default {
 
     // 打开领奖记录
     getRecive() {
+      if (!this.user_id) {
+        this.showlogin = true;
+        return;
+      }
       this.getinfo(this.user_id);
     },
     // 领取记录
