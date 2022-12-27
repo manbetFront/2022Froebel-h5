@@ -5,7 +5,7 @@
       <div class="top_content">
         <div class="row_one time">
           <div>【{{ $t("opennum") }}】</div>
-          <p>2023.01.01-2023.01.06</p>
+          <p>01/01/2023-06/01/2023</p>
         </div>
         <div class="row_one">
           <div>【{{ $t("singledep") }}】</div>
