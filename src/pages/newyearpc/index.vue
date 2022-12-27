@@ -283,6 +283,7 @@ Vue.use(Progress)
   .use(Dialog)
   .use(Table)
   .use(Loading);
+import { _debounce } from "@/utils";
 
 import { getReceiveList, cumulativeTheme, getMoneyAdd, getunlock } from "@/api";
 export default {
@@ -424,7 +425,11 @@ export default {
       });
     },
     // 领取彩金
-    async getcollet(type) {
+    getcollet: _debounce(function(type) {
+      this.checkcollet(type);
+    }, 500),
+
+    async checkcollet(type) {
       if (!this.user_id) {
         this.showlogin = true;
         return;
