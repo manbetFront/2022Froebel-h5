@@ -32,7 +32,7 @@
             <div>
               {{ item.label }}:
               <span class="mar"
-                >{{ $t("todaycomp") }}：{{ item.num }}{{ $t("degree") }}</span
+                >{{ $t("todaycomp") }}：{{ item.num }} {{ $t("degree") }}</span
               >
             </div>
           </div>
@@ -49,9 +49,9 @@
               "
             ></Progress>
             <div class="perc">
-              {{ parseFloat(item.percent).toFixed(3) }}VNDK
+              {{ parseFloat(item.percent).toFixed(3) }} VNDK
             </div>
-            <div class="total">{{ item.total }}VNDK</div>
+            <div class="total">{{ item.total }} VNDK</div>
           </div>
         </div>
 
@@ -59,14 +59,15 @@
           <div class="all">
             <div class="num">
               {{ $t("incentive") }}：<span
-                >{{ activityContent.total_number }}{{ $t("degree") }}</span
+                >{{ activityContent.total_number }} {{ $t("degree") }}</span
               >
             </div>
             <div class="mon">
               {{ $t("handsel") }}：<span
                 >{{
                   parseFloat(activityContent.lottery_money).toFixed(3)
-                }}VNDK</span
+                }}
+                VNDK</span
               >
             </div>
           </div>
@@ -102,7 +103,7 @@
           <div class="left">
             <div>
               {{ $t("threeflow") }}:
-              {{ parseFloat(activityContent.amount_total).toFixed(3) }}VNDK
+              {{ parseFloat(activityContent.amount_total).toFixed(3) }} VNDK
               <span
                 >{{ $t("failgold") }}：{{ activityContent.delock_count
                 }}{{ $t("place") }}</span
@@ -122,9 +123,9 @@
               "
             ></Progress>
             <div class="perct">
-              {{ parseFloat(activityContent.amount_total).toFixed(3) }}VNDK
+              {{ parseFloat(activityContent.amount_total).toFixed(3) }} VNDK
             </div>
-            <div class="total">3188VNDK</div>
+            <div class="total">3188 VNDK</div>
           </div>
         </div>
       </div>
@@ -153,9 +154,9 @@
         </div>
         <div class="rowinfo">
           <div class="row_one">
-            <div :class="lang == 'vi' ? 'line' : ''">
+            <!-- <div :class="lang == 'vi' ? 'line' : ''">
               【{{ $t("drewover") }}】
-            </div>
+            </div> -->
             <p class="more">{{ $t("eggover") }}。</p>
           </div>
         </div>
@@ -178,8 +179,8 @@
               <div :class="lang == 'vi' ? `exceed ex${i}` : 'exceed'">
                 {{ item.label }}
               </div>
-              <div class="exceed">{{ $t("valid") }}{{ item.task }}VNDK</div>
-              <div>{{ item.handsel }}VNDK</div>
+              <div class="exceed">{{ $t("valid") }} {{ item.task }} VNDK</div>
+              <div>{{ item.handsel }} VNDK</div>
               <div>{{ item.limit }}</div>
             </div>
           </div>
@@ -197,9 +198,9 @@
               <div>{{ $t("source") }}</div>
             </div>
             <div class="body three" v-for="item in table2">
-              <div>{{ item.people }}{{ $t("place") }}</div>
-              <div>{{ item.task }}{{ $t("ent") }}</div>
-              <div>{{ item.handsel }}VNDK</div>
+              <div>{{ item.people }} {{ $t("place") }}</div>
+              <div>{{ item.task }} {{ $t("ent") }}</div>
+              <div>{{ item.handsel }} VNDK</div>
             </div>
           </div>
         </div>
@@ -721,6 +722,7 @@ r2(val){
           width:r(270)
         }
         .more{
+          width:100%;
           line-height:r(18)
           margin-top:r(-2)
         }
@@ -743,10 +745,11 @@ r2(val){
           height:r(40);
           line-height:r(40);
           div{
-            width:25%;
+            // width:25%;
             text-align:center;
             color:#fff;
             font-size:r(11);
+            border-right:r(0.5) solid #ffeb8b;
           }
           .more{
             line-height:r(15);
@@ -761,7 +764,7 @@ r2(val){
             width:30%;
           }
           div:nth-child(3){
-            width:20%;
+            width:17%;
           }
           div:nth-child(4){
             width:20%;
@@ -775,15 +778,16 @@ r2(val){
           line-height:r(40);
           border-top:r(0.5) solid #ffeb8b;
           div{
-            width:25%
+            // width:25%
             text-align:center;
             color:#ffeb8b;;
             font-size:r(11);
+            border-right:r(0.5) solid #ffeb8b;
           }
           .exceed{
-            height:r(30);
+            height:r(40);
             line-height: r(16);
-            margin-top:r(5)
+            padding-top:r(5)
           }
         }
         .moretable{
@@ -796,37 +800,37 @@ r2(val){
             width:30%
           }
           div:nth-child(3){
-            width:20%
+            width:17%
           }
           div:nth-child(4){
             width:20%
           }
           .exceed{
-            height:r(50);
+            height:r(70);
             line-height: r(16);
-            margin-top:r(10)
+            padding-top:r(10)
           }
           .ex0{
-            height:r(60);
+            // height:r(60);
             line-height:r(60)
           }
           .ex2{
-            height:r(60);
-            margin-top:r(20)
+            height:r(70);
+            padding-top:r(20)
           }
         }
         .three{
           div{
-            width:33.3%
+            width:33.3%;
           }
           .lineh{
             line-height:r(15)
-            margin-top:r(5)
+            padding-top:r(5)
           }
         }
       }
       .til2{
-        color: #a91010;
+        color: #ed0909;
         font-size:r(10)
         line-height:r(14)
       }
@@ -1126,19 +1130,19 @@ r2(val){
         .title{
           padding-top:r(30);
           position:relative;
-          width:r(140);
+          width:r(160);
           margin:0 auto;
           margin-bottom:r(10);
           img{
-            width:r(140);
+            width:r(160);
             height:auto;
           }
           div{
-            width:r(140);
+            width:r(160);
             height:r(40);
             text-align:center;
-            line-height:r(40);
-            font-size:r(18);
+            line-height:r(45);
+            font-size:r(14);
             color:#f6e8c2;
             position:absolute;
             left:0;
@@ -1523,4 +1527,9 @@ r2(val){
 /deep/ .el-progress-bar__outer{
   overflow:inherit !important;
 }
+
+.el-table{
+    background-color: rgba(38, 38, 38, 0.75);
+    border-radius: 9px;
+  }
 </style>

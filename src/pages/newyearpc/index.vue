@@ -30,7 +30,7 @@
         <div class="row" v-for="item in cersivelist">
           <div class="left">
             <div>{{ item.label }}:</div>
-            <div>{{ $t("todaycomp") }}：{{ item.num }}{{ $t("degree") }}</div>
+            <div>{{ $t("todaycomp") }}：{{ item.num }} {{ $t("degree") }}</div>
           </div>
           <div class="right">
             <Progress
@@ -45,20 +45,21 @@
               "
             ></Progress>
             <div class="perc">
-              {{ parseFloat(item.percent).toFixed(3) }}VNDK
+              {{ parseFloat(item.percent).toFixed(3) }} VNDK
             </div>
-            <div class="total">{{ item.total }}VNDK</div>
+            <div class="total">{{ item.total }} VNDK</div>
           </div>
         </div>
 
         <div class="grand">
           <div class="all">
-            {{ $t("incentive") }}：{{ activityContent.total_number
-            }}{{ $t("degree") }}
+            {{ $t("incentive") }}：{{ activityContent.total_number }}
+            {{ $t("degree") }}
             <span
               >{{ $t("handsel") }}：{{
                 parseFloat(activityContent.lottery_money).toFixed(3)
-              }}VNDK</span
+              }}
+              VNDK</span
             >
           </div>
           <div class="btn" @click="getcollet(1)">
@@ -95,11 +96,12 @@
             <div>
               {{ $t("threeflow") }}：{{
                 parseFloat(activityContent.amount_total).toFixed(3)
-              }}VNDK
+              }}
+              VNDK
             </div>
             <div>
-              {{ $t("failgold") }}：{{ activityContent.delock_count
-              }}{{ $t("place") }}
+              {{ $t("failgold") }}：{{ activityContent.delock_count }}
+              {{ $t("place") }}
             </div>
           </div>
           <div class="right">
@@ -115,9 +117,9 @@
               "
             ></Progress>
             <div class="perct">
-              {{ parseFloat(activityContent.amount_total).toFixed(3) }}VNDK
+              {{ parseFloat(activityContent.amount_total).toFixed(3) }} VNDK
             </div>
-            <div class="total">3188VNDK</div>
+            <div class="total">3188 VNDK</div>
           </div>
         </div>
       </div>
@@ -161,9 +163,9 @@
         </div> -->
 
         <div class="tips1">
-          <div :class="lang == 'vi' ? 'actcon' : ''">
+          <!-- <div :class="lang == 'vi' ? 'actcon' : ''">
             【{{ $t("drewover") }}】
-          </div>
+          </div> -->
           <div>{{ $t("eggover") }}</div>
         </div>
 
@@ -178,8 +180,8 @@
             </div>
             <div class="body" v-for="item in table1">
               <div class="exceed">{{ item.label }}</div>
-              <div class="exceed">{{ $t("valid") }}{{ item.task }}VNDK</div>
-              <div>{{ item.handsel }}VNDK</div>
+              <div class="exceed">{{ $t("valid") }} {{ item.task }} VNDK</div>
+              <div>{{ item.handsel }} VNDK</div>
               <div>{{ item.limit }}</div>
             </div>
           </div>
@@ -191,15 +193,15 @@
         <div class="box_table">
           <div class="til">② {{ $t("extra") }}</div>
           <div class="table">
-            <div class="header">
+            <div class="header headertwo">
               <div>{{ $t("lock") }}</div>
               <div>{{ $t("over") }}</div>
               <div>{{ $t("source") }}</div>
             </div>
-            <div class="body" v-for="item in table2">
-              <div>{{ item.people }}{{ $t("place") }}</div>
-              <div>{{ item.task }}{{ $t("ent") }}</div>
-              <div>{{ item.handsel }}VNDK</div>
+            <div class="body bodytwo" v-for="item in table2">
+              <div>{{ item.people }} {{ $t("place") }}</div>
+              <div>{{ item.task }} {{ $t("ent") }}</div>
+              <div>{{ item.handsel }} VNDK</div>
             </div>
           </div>
         </div>
@@ -251,7 +253,7 @@
       <div class="back_box">
         <div class="post">
           <img class="back" src="../../common/img/tips2.png" />
-          <div class="num">{{ parseFloat(money).toFixed(3) }}VNDK</div>
+          <div class="num">{{ parseFloat(money).toFixed(3) }} VNDK</div>
           <div class="cons">{{ $t("congra") }}</div>
           <div class="dele">
             <img @click="darwdialog = false" src="../../common/img/del.png" />
@@ -708,32 +710,45 @@ r2(val){
         .header{
           display:flex;
           justify-content space-between
-          height:r2(66);
-          line-height:r2(66);
+          height:r2(80);
+          line-height:r2(80);
           div{
             width:25%;
             text-align:center;
             color:#fff;
             font-size:r2(24);
+            border-right:r2(1) solid #ffeb8b;
+          }
+        }
+        .headertwo{
+          div{
+            width:33.3%
           }
         }
         .body{
           display:flex;
           justify-content space-between
-          // height:r2(66);
-          padding:r2(10) 0
-          line-height:r2(66);
+          height:r2(80);
+          // padding:r2(10) 0
+          line-height:r2(80);
           border-top:r2(1) solid #ffeb8b;
           div{
             width:25%;
             text-align:center;
             color:#ffeb8b;;
             font-size:r2(18);
+            border-right:r2(1) solid #ffeb8b;
+            // padding:r2(10) 0
           }
           .exceed{
-            height:r2(40);
+            // height:r2(66);
             line-height: r2(30);
-            margin-top:r2(7)
+            padding-top:r2(7)
+          }
+        }
+        .bodytwo{
+          div{
+            width:33.3%
           }
         }
       }
@@ -1052,19 +1067,19 @@ r2(val){
         .title{
           padding-top:r2(60);
           position:relative;
-          width:r2(280);
+          width:r2(340);
           margin:0 auto;
           margin-bottom:r2(40);
           img{
-            width:r2(280);
+            width:100%;
             height:auto;
           }
           div{
-            width:r2(280);
-            height:r2(66);
+            width:100%;
+            height:r2(80);
             text-align:center;
-            line-height:r2(72);
-            font-size:r2(36);
+            line-height:r2(85);
+            font-size:r2(30);
             color:#f6e8c2;
             position:absolute;
             left:0;
