@@ -33,7 +33,7 @@
   "valid": "Doanh thu hợp lệ mỗi lần đáp ứng",
   "tips1": "Nhiệm vụ sẽ được thiết lập lại vào lúc 00:00 hàng ngày, nếu nhiệm vụ chưa được hoàn thành trong ngày, các doanh thu sẽ được tính lại từ đầu vào ngày hôm sau.",
 
-  "extra": "Thành viên mở khóa 1 nhân vật với yêu cầu tiền gửi tích lũy hợp lệ mỗi lần đáp ứng ≥3,188,000 VND, hoàn thành số nhân vật mở khóa được chỉ định và các nhiệm vụ tương ứng, sẽ nhận thưởng theo bảng dưới đây",
+  "extra": "Thành viên mở khóa 1 nhân vật với yêu cầu tiền gửi tích lũy hợp lệ mỗi lần đáp ứng ≥3,188 VNDK, hoàn thành số nhân vật mở khóa được chỉ định và các nhiệm vụ tương ứng, sẽ nhận thưởng theo bảng dưới đây",
   "lock": "Mở Khóa Nhân Vật",
   "over": "Hoàn Thành Nhiệm Vụ",
   "source": "Thưởng Thêm",
@@ -43,8 +43,8 @@
   "actinfo1": "1.Thành viên cần nhấp vào để nhận Thưởng trong [Thời Gian Chỉ Định], nếu không, sẽ mất lượt tham gia khuyến mãi này.",
   "actinfo2": "2.Sau khi nhận được tiền thưởng, thành viên không thể xin HỦY, và cần đáp ứng yêu cầu vòng cược năm (05) lần (Không bao gồm doanh thu SABA Thể Thao và Xổ Số) trước khi thực hiện rút tiền. ",
   "actinfo3": "3.Khuyến mãi này chỉ áp dụng cùng lúc với HOÀN TRẢ MỖI NGÀY, không áp dụng cùng lúc với những khuyến mãi khác.",
-  "actinfo4": "4.Khuyến mãi này chỉ được tính cho các cược hợp lệ có kết quả là Thắng / Thua. Tất cả các cược HÒA, cược HỦY, cược VÔ HIỆU, cược XIÊN, cược HAI BÊN (VD: Cùng đặt Đội chủ nhà/ Đội khách; Banker/Player; Big/Small vv...) và các tỷ lệ cược thấp hơn (Hồng Kông 0.7, Châu Âu 1.7 và tương tự cho các tỷ lệ cược khác) đều không được tính vào tổng doanh thu cược hợp lệ.",
-  "actinfo5": "5.QUY TẮC KHUYẾN MÃI VÀ ĐIỀU KHOẢN của ManBetX sẽ được áp dụng cho chương trình khuyến mãi này.",
+  "actinfo4": "4.ManBetX có quyền sửa đổi hoặc chấm dứt khuyến mãi ở bất kỳ thời điểm nào theo quyết định cuối cùng.",
+  "actinfo5": "5.Điều Khoản & Điều Kiện của ManBetX sẽ được áp dụng cho chương trình khuyến mãi này.",
 
   "gotop": "Lên đầu trang",
   "index": "Số thứ tự",

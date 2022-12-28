@@ -322,14 +322,14 @@ export default {
         },
       ],
       table1: [
-        { label: this.$t("granddep"), task: 1500, handsel: 10, limit: 15 },
+        { label: this.$t("granddep"), task: "1,500", handsel: 10, limit: 15 },
         {
           label: this.$t("getmeet"),
-          task: 2800,
+          task: "2,800",
           handsel: 28,
           limit: 18,
         },
-        { label: this.$t("opendrew"), task: 3500, handsel: 35, limit: 20 },
+        { label: this.$t("opendrew"), task: "3,500", handsel: 35, limit: 20 },
       ],
       table2: [
         { people: 3, task: 15, handsel: 38 },
@@ -616,6 +616,7 @@ r2(val){
 
 .h5_container{
   width:100vw;
+  font-family:Arial
   .banner{
     width:100%;
     height:auto;
