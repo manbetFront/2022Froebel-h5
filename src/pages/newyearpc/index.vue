@@ -786,11 +786,11 @@ r2(val){
         }
       }
       .til2{
-        color: red;
+        color: #000;
         font-size:r2(20)
-        background:#fff;
-        padding:r2(10) r2(5);
-        margin-top:r2(-15)
+        // background:#fff;
+        // padding:r2(10) r2(5);
+        // margin-top:r2(-15)
       }
     }
     .desc{
