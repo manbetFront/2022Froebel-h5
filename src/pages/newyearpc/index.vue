@@ -193,8 +193,8 @@
               <div>{{ $t("taskmon") }}</div>
               <div>{{ $t("tasklimit") }}</div>
             </div>
-            <div class="body" v-for="item in table1">
-              <div class="exceed">{{ item.label }}</div>
+            <div class="body" v-for="(item, i) in table1">
+              <div :class="`exceed ex${i}`">{{ item.label }}</div>
               <div class="exceed">{{ $t("valid") }} {{ item.task }} VNDK</div>
               <div>{{ item.handsel }} VNDK</div>
               <div>{{ item.limit }}</div>
@@ -770,6 +770,14 @@ r2(val){
             line-height: r2(30);
             padding-top:r2(7)
           }
+          .ex0{
+            line-height:r2(80);
+            padding-top:0
+          }
+          .ex2{
+            line-height:r2(80);
+            padding-top:0
+          }
         }
         .bodytwo{
           div{
@@ -778,8 +786,11 @@ r2(val){
         }
       }
       .til2{
-        color: #a91010;
+        color: red;
         font-size:r2(20)
+        background:#fff;
+        padding:r2(10) 0;
+        margin-top:r2(-15)
       }
     }
     .desc{

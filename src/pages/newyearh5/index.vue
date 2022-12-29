@@ -841,7 +841,8 @@ r2(val){
           }
           .ex0{
             // height:r(60);
-            line-height:r(60)
+            padding-top:0
+            line-height:r(70)
           }
           .ex2{
             height:r(70);
