@@ -49,9 +49,12 @@
               "
             ></Progress>
             <div class="perc">
-              {{ parseFloat(item.percent).toFixed(3) }} VNDK
+              {{ format_with_substring(parseFloat(item.percent).toFixed(3)) }}
+              VNDK
             </div>
-            <div class="total">{{ item.total }} VNDK</div>
+            <div class="total">
+              {{ format_with_substring(item.total) }} VNDK
+            </div>
           </div>
         </div>
 
@@ -65,7 +68,9 @@
             <div class="mon">
               {{ $t("handsel") }}：<span
                 >{{
-                  parseFloat(activityContent.lottery_money).toFixed(3)
+                  format_with_substring(
+                    parseFloat(activityContent.lottery_money).toFixed(3)
+                  )
                 }}
                 VNDK</span
               >
@@ -103,10 +108,15 @@
           <div class="left">
             <div>
               {{ $t("threeflow") }}:
-              {{ parseFloat(activityContent.amount_total).toFixed(3) }} VNDK
+              {{
+                format_with_substring(
+                  parseFloat(activityContent.amount_total).toFixed(3)
+                )
+              }}
+              VNDK
               <span
-                >{{ $t("failgold") }}：{{ activityContent.delock_count
-                }}{{ $t("place") }}</span
+                >{{ $t("failgold") }}：{{ activityContent.delock_count }}
+                {{ $t("place") }}</span
               >
             </div>
           </div>
@@ -123,16 +133,23 @@
               "
             ></Progress>
             <div class="perct">
-              {{ parseFloat(activityContent.amount_total).toFixed(3) }} VNDK
+              {{
+                format_with_substring(
+                  parseFloat(activityContent.amount_total).toFixed(3)
+                )
+              }}
+              VNDK
             </div>
-            <div class="total">3188 VNDK</div>
+            <div class="total">{{ format_with_substring(3188) }} VNDK</div>
           </div>
         </div>
       </div>
       <div class="center_bot">
         <div class="raise">
           {{ $t("raise") }}：{{
-            parseFloat(activityContent.plus_lottery_money).toFixed(3)
+            format_with_substring(
+              parseFloat(activityContent.plus_lottery_money).toFixed(3)
+            )
           }}
           VNDK
         </div>
@@ -503,24 +520,38 @@ export default {
           if (res.code == 200) {
             this.loading.close();
             let data = res.data;
+            // let data = {};
+            // data.jl_today_number = 1;
+            // data.ai_today_number = 2;
+            // data.ae_today_number = 3;
+            // data.delock_count = 2;
+            // data.unlock_count = 2;
+            // data.notlock_count = 4;
+
+            // data.lottery_money = 8973.88;
+            // data.amount_total = 56543.9;
+            // data.plus_lottery_money = 8459.2;
             this.activityContent = data;
             let reslist = [
               {
                 label: this.$t("granddep"),
                 num: data.jl_today_number,
                 percent: data.wire_valid_bet_amount,
+                // percent: 2987.0,
                 total: 1500,
               },
               {
                 label: this.$t("getmeet"),
                 num: data.ai_today_number,
                 percent: data.sport_valid_bet_amount,
+                // percent: 2345.1,
                 total: 2800,
               },
               {
                 label: this.$t("opendrew"),
                 num: data.ae_today_number,
                 percent: data.really_valid_bet_amount,
+                // percent: 2864.98,
                 total: 3500,
               },
             ];
@@ -548,31 +579,6 @@ export default {
             });
             this.imglist = list;
             this.$set(this.imglist, 0, list[0]);
-
-            let table1 = [
-              {
-                label: this.$t("granddep"),
-                task: 1500,
-                handsel: 10,
-                limit: 15,
-              },
-              {
-                label: this.$t("getmeet"),
-                task: 2800,
-                handsel: 28,
-                limit: 18,
-              },
-              {
-                label: this.$t("opendrew"),
-                task: 3500,
-                handsel: 35,
-                limit: 20,
-              },
-            ];
-            this.table1 = table1;
-            this.$set(this.table1, 0, table1[0]);
-            this.$set(this.table1, 1, table1[1]);
-            this.$set(this.table1, 2, table1[2]);
           } else {
             this.loading.close();
             // this.$message({ type: "warning", message: res.msg });
@@ -601,6 +607,27 @@ export default {
         }
       }
       return isenv;
+    },
+
+    format_with_substring(number) {
+      // 数字转为字符串，并按照 .分割
+      let arr = (number + "").split(".");
+      let int = arr[0] + "";
+      let fraction = arr[1] || "";
+      // 多余的位数
+      let f = int.length % 3;
+      // 获取多余的位数，f可能是0， 即r可能是空字符串
+      let r = int.substring(0, f);
+      // 每三位添加','金额对应的字符
+      for (let i = 0; i < Math.floor(int.length / 3); i++) {
+        r += "," + int.substring(f + i * 3, f + (i + 1) * 3);
+      }
+      // 多余的位数，上面
+      if (f === 0) {
+        r = r.substring(1);
+      }
+      // 调整部分和小数部分拼接
+      return r + (!!fraction ? "." + fraction : "");
     },
   },
 };
@@ -814,7 +841,8 @@ r2(val){
           }
           .ex0{
             // height:r(60);
-            line-height:r(60)
+            padding-top:0
+            line-height:r(70)
           }
           .ex2{
             height:r(70);
@@ -832,9 +860,12 @@ r2(val){
         }
       }
       .til2{
-        color: #ed0909;
+        color: #000;
         font-size:r(10)
         line-height:r(14)
+        // background:#fff;
+        // padding:r(5) r(3)
+        // margin-top:r(-5)
       }
     }
     .desc{
@@ -975,7 +1006,7 @@ r2(val){
             }
 
             .perct{
-              width: r(80);
+              width: r(110);
               height: r(20);
               line-height: r(20);
               background-color: #fbedc9;
@@ -1071,7 +1102,7 @@ r2(val){
         line-height: r(40);
         text-align:center;
         color: #c53a3a;
-        font-size:r(13)
+        font-size:r(11)
         // margin: r2(53) 125.9px 2px 18.2px;
         // padding: 16px 129px 17px 42px;
         border-radius: r(20);
@@ -1176,7 +1207,7 @@ r2(val){
               margin-top:r(35);
             }
             .perc{
-              width: r(80);
+              width: r(110);
               height: r(20);
               line-height: r(20);
               background-color: #c53a3a;
