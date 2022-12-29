@@ -789,7 +789,7 @@ r2(val){
         color: red;
         font-size:r2(20)
         background:#fff;
-        padding:r2(10) 0;
+        padding:r2(10) r2(5);
         margin-top:r2(-15)
       }
     }

@@ -860,9 +860,12 @@ r2(val){
         }
       }
       .til2{
-        color: #ed0909;
+        color: red;
         font-size:r(10)
         line-height:r(14)
+        background:#fff;
+        padding:r(5) r(3)
+        margin-top:r(-5)
       }
     }
     .desc{
