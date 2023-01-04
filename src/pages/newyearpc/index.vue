@@ -1,237 +1,163 @@
 <template>
   <div class="pc_container">
-    <img class="banner" src="../../common/img/banner@2x.png" />
+    <img class="banner" src="../../common/images/banner@2x.png" />
 
-    <div class="receive">
-      <img class="pos1" src="../../common/img/2-2@2x.png" />
-      <img class="pos2" src="../../common/img/hongdenglong.png" />
-      <img class="pos3" src="../../common/img/hongdenglong.png" />
-
-      <div class="top_content">
-        <div class="row_one">
-          <div>【{{ $t("opennum") }}】</div>
-          <p>01/01/2023-06/01/2023</p>
-        </div>
-        <div class="row_one">
-          <div>【{{ $t("singledep") }}】</div>
-          <p>{{ $t("getaward") }}</p>
-        </div>
-        <div class="row_one">
-          <div>【{{ $t("gainchance") }}】</div>
-          <p>{{ $t("platform") }}</p>
-        </div>
-      </div>
-
-      <div class="rece_box">
-        <div class="title">
-          <img src="../../common/img/2-4@2x.png" />
-          <div @click="getRecive">{{ $t("grandbet") }}</div>
-        </div>
-        <div class="row" v-for="item in cersivelist">
-          <div class="left">
-            <div>{{ item.label }}:</div>
-            <div>{{ $t("todaycomp") }}：{{ item.num }} {{ $t("degree") }}</div>
+    <div class="bkg">
+      <div class="receive">
+        <div class="top_content">
+          <div class="row_one">
+            <div>【{{ $t("opennum") }}】</div>
+            <p>20/01/2023-31/01/2023</p>
           </div>
-          <div class="right">
-            <Progress
-              :show-text="false"
-              :color="color"
-              :text-inside="true"
-              :stroke-width="10"
-              :percentage="
-                Number(item.percent / item.total) * 100 > 100
-                  ? 100
-                  : Number(item.percent / item.total) * 100
-              "
-            ></Progress>
-            <div class="perc">
-              {{ format_with_substring(parseFloat(item.percent).toFixed(3)) }}
-              VNDK
+          <div class="row_one">
+            <div>【{{ $t("singledep") }}】</div>
+            <p>{{ $t("getaward") }}</p>
+          </div>
+          <div class="row_one">
+            <div>【{{ $t("gainchance") }}】</div>
+            <p>{{ $t("platform") }}</p>
+          </div>
+        </div>
+
+        <div class="per_box">
+          <img class="perimg" src="../../common/images/3@2x.png" />
+          <div class="rece_box">
+            <div class="title">
+              <img src="../../common/images/2-4@2x.png" />
+              <div @click="getRecive">{{ $t("grandbet") }}</div>
             </div>
-            <div class="total">
-              {{ format_with_substring(item.total) }} VNDK
-            </div>
-          </div>
-        </div>
-
-        <div class="grand">
-          <div class="all">
-            {{ $t("incentive") }}：{{ activityContent.total_number }}
-            {{ $t("degree") }}
-            <span
-              >{{ $t("handsel") }}：{{
-                format_with_substring(
-                  parseFloat(activityContent.lottery_money).toFixed(3)
-                )
-              }}
-              VNDK</span
-            >
-          </div>
-          <div class="btn" @click="getcollet(1)">
-            <img src="../../common/img/4@2x.png" />
-            <div>{{ $t("pulldown") }}</div>
-          </div>
-        </div>
-        <div class="fenge"></div>
-      </div>
-    </div>
-
-    <div class="center_box">
-      <div class="people_box">
-        <div class="one_box" v-for="item in imglist">
-          <img class="woman" :src="item.img" />
-          <img
-            class="follow"
-            v-if="item.type == 1"
-            src="../../common/img/2@2x.png"
-          />
-          <div class="model" v-else>
-            <div class="unlock">
-              <div v-if="item.type == 2" @click="deblock">
-                {{ $t("opengold") }}
+            <div class="row" v-for="item in cersivelist">
+              <div class="left">
+                <div class="plat">{{ item.label }}:</div>
+                <div>
+                  {{ $t("todaycomp") }}：{{ item.num }} {{ $t("degree") }}
+                </div>
               </div>
-              <p v-if="item.type == 3">{{ $t("goldchance") }}</p>
+              <div class="right">
+                <Progress
+                  :show-text="false"
+                  :color="color"
+                  :text-inside="true"
+                  :stroke-width="10"
+                  :percentage="
+                    Number(item.percent / item.total) * 100 > 100
+                      ? 100
+                      : Number(item.percent / item.total) * 100
+                  "
+                ></Progress>
+                <div class="perc">
+                  {{
+                    format_with_substring(parseFloat(item.percent).toFixed(3))
+                  }}
+                  VNDK
+                </div>
+                <div class="total">
+                  {{ format_with_substring(item.total) }} VNDK
+                </div>
+              </div>
             </div>
+
+            <div class="grand_box">
+              <div class="grand">
+                <div class="all">
+                  {{ $t("force") }}:<span class="price">{{
+                    format_with_substring(
+                      parseFloat(activityContent.total_number).toFixed(3)
+                    )
+                  }}</span>
+                  VNDK
+                </div>
+                <div class="envep_box">
+                  <div class="reun">
+                    <div>
+                      {{ $t("reunion") }} <span>34</span> {{ $t("desk") }}
+                    </div>
+                    <div>
+                      {{ $t("invitefriend") }} <span>12</span>
+                      {{ $t("person") }}
+                    </div>
+                  </div>
+                  <div class="btn" @click="getcollet(1)">
+                    <img src="../../common/images/btn.png" />
+                    <div>{{ $t("trigger") }}</div>
+                  </div>
+                </div>
+                <div class="newyearenv new">
+                  <div class="accum">
+                    {{ $t("envelope") }}:<span>333,456</span>VNDK
+                  </div>
+                  <div class="getd">{{ $t("clickdraw") }}</div>
+                </div>
+
+                <div class="leov">
+                  {{ $t("accfriend") }} <span>34</span> {{ $t("person") }}
+                </div>
+                <div class="newyearenv">
+                  <div class="accum">
+                    {{ $t("addit") }}:<span>333,456</span>VNDK
+                  </div>
+                  <div class="getd">{{ $t("clickdraw") }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="fenge"></div>
           </div>
         </div>
       </div>
-      <div class="total_price">
-        <div class="row">
-          <div class="left">
-            <div>
-              {{ $t("threeflow") }}：{{
-                format_with_substring(
-                  parseFloat(activityContent.amount_total).toFixed(3)
-                )
-              }}
-              VNDK
-            </div>
-            <div>
-              {{ $t("failgold") }}：{{ activityContent.delock_count }}
 
-              {{ $t("place") }}
+      <div class="activity_content">
+        <div class="all_box">
+          <div class="title">
+            <img src="../../common/images/invalid-name@2x.png" />
+          </div>
+          <div class="box_table">
+            <div class="til">{{ $t("themaone") }}</div>
+            <div class="table">
+              <div class="header">
+                <div>{{ $t("game") }}</div>
+                <div>{{ $t("task") }}</div>
+                <div>{{ $t("claims") }}</div>
+                <div>{{ $t("newred") }}</div>
+                <div>{{ $t("tasklimit") }}</div>
+              </div>
+              <div class="body" v-for="(item, i) in table1">
+                <div :class="`exceed ex${i}`">{{ item.label }}</div>
+                <div class="exceed">{{ $t("valid") }} {{ item.task }} VNDK</div>
+                <div>{{ item.man }}</div>
+                <div>{{ item.handsel }} VNDK</div>
+                <div>{{ item.limit }}</div>
+              </div>
+            </div>
+            <div class="til2">
+              {{ $t("tips1") }}
             </div>
           </div>
-          <div class="right">
-            <Progress
-              :show-text="false"
-              :color="color"
-              :text-inside="true"
-              :stroke-width="10"
-              :percentage="
-                Number(activityContent.amount_total / 3188) * 100 > 100
-                  ? 100
-                  : Number(activityContent.amount_total / 3188) * 100
-              "
-            ></Progress>
-            <div class="perct">
-              {{
-                format_with_substring(
-                  parseFloat(activityContent.amount_total).toFixed(3)
-                )
-              }}
-              VNDK
+
+          <div class="box_table">
+            <div class="til">{{ $t("extra") }}</div>
+            <div class="table">
+              <div class="header headertwo">
+                <div>{{ $t("invite") }}</div>
+                <div>{{ $t("extrared") }}</div>
+              </div>
+              <div class="body bodytwo" v-for="item in table2">
+                <div>{{ item.people }} {{ $t("place") }}</div>
+                <div>{{ item.handsel }} VNDK</div>
+              </div>
             </div>
-            <div class="total">{{ format_with_substring(3188) }} VNDK</div>
+          </div>
+
+          <div class="desc">
+            <div class="state">【{{ $t("event") }}】</div>
+            {{ $t("actinfo1") }}<br />
+            {{ $t("actinfo2") }}<br />
+            {{ $t("actinfo3") }}<br />
+            {{ $t("actinfo4") }}<br />
+            {{ $t("actinfo5") }}<br />
           </div>
         </div>
       </div>
-      <div class="center_bot">
-        <div class="raise">
-          {{ $t("raise") }}：{{
-            format_with_substring(
-              parseFloat(activityContent.plus_lottery_money).toFixed(3)
-            )
-          }}
-          VNDK
-        </div>
-        <div class="btn" @click="getcollet(2)">
-          <!-- <img src="../../common/img/3@2x.png"/> -->
-          <div>{{ $t("pulldown") }}</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="activity_content">
-      <img class="pos1" src="../../common/img/2-2@2x.png" />
-      <img class="pos2" src="../../common/img/hongdenglong.png" />
-      <img class="pos3" src="../../common/img/hongdenglong.png" />
-      <div class="all_box">
-        <div class="title">
-          <img src="../../common/img/1@2x.png" />
-          <div>{{ $t("drewover") }}</div>
-          <img src="../../common/img/2-3@2x.png" />
-        </div>
-        <!-- <div class="rowinfo">
-          <div class="row_one">
-            <div>【活动时间】</div>
-            <p>2023年01月09日 - 2023年02月08日</p>
-          </div>
-          <div class="row_one">
-            <div>【活动对象】</div>
-            <p>全体会员</p>
-          </div>
-          <div class="row_one">
-            <div>【活动平台】</div>
-            <p>指定平台</p>
-          </div>
-        </div> -->
-
-        <div class="tips1">
-          <!-- <div :class="lang == 'vi' ? 'actcon' : ''">
-            【{{ $t("drewover") }}】
-          </div> -->
-          <div>{{ $t("eggover") }}</div>
-        </div>
-
-        <div class="box_table">
-          <div class="til">① {{ $t("themaone") }}</div>
-          <div class="table">
-            <div class="header">
-              <div>{{ $t("game") }}</div>
-              <div>{{ $t("task") }}</div>
-              <div>{{ $t("taskmon") }}</div>
-              <div>{{ $t("tasklimit") }}</div>
-            </div>
-            <div class="body" v-for="(item, i) in table1">
-              <div :class="`exceed ex${i}`">{{ item.label }}</div>
-              <div class="exceed">{{ $t("valid") }} {{ item.task }} VNDK</div>
-              <div>{{ item.handsel }} VNDK</div>
-              <div>{{ item.limit }}</div>
-            </div>
-          </div>
-          <div class="til2">
-            {{ $t("tips1") }}
-          </div>
-        </div>
-
-        <div class="box_table">
-          <div class="til">② {{ $t("extra") }}</div>
-          <div class="table">
-            <div class="header headertwo">
-              <div>{{ $t("lock") }}</div>
-              <div>{{ $t("over") }}</div>
-              <div>{{ $t("source") }}</div>
-            </div>
-            <div class="body bodytwo" v-for="item in table2">
-              <div>{{ item.people }} {{ $t("place") }}</div>
-              <div>{{ item.task }} {{ $t("ent") }}</div>
-              <div>{{ item.handsel }} VNDK</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="desc">
-          <div class="state">【{{ $t("event") }}】</div>
-          {{ $t("actinfo1") }}<br />
-          {{ $t("actinfo2") }}<br />
-          {{ $t("actinfo3") }}<br />
-          {{ $t("actinfo4") }}<br />
-          {{ $t("actinfo5") }}<br />
-        </div>
-      </div>
-      <img class="bottom_img" src="../../common/img/invalid-name@2x.png" />
-      <div class="fenge"></div>
       <div class="topbox">
         <div class="gotop" @click="backTop">{{ $t("gotop") }}</div>
       </div>
@@ -258,7 +184,7 @@
         <img
           class="dele"
           @click="dialogVisible = false"
-          src="../../common/img/del.png"
+          src="../../common/images/del.png"
         />
       </div>
     </div>
@@ -267,11 +193,14 @@
       <div class="modelveng" @click="darwdialog = false"></div>
       <div class="back_box">
         <div class="post">
-          <img class="back" src="../../common/img/tips2.png" />
+          <img class="back" src="../../common/images/tips2.png" />
           <div class="num">{{ parseFloat(money).toFixed(3) }} VNDK</div>
           <div class="cons">{{ $t("congra") }}</div>
           <div class="dele">
-            <img @click="darwdialog = false" src="../../common/img/del.png" />
+            <img
+              @click="darwdialog = false"
+              src="../../common/images/del.png"
+            />
           </div>
         </div>
       </div>
@@ -281,11 +210,11 @@
       <div class="modelveng" @click="showlogin = false"></div>
       <div class="login_box">
         <div class="post">
-          <img class="back" src="../../common/img/top.png" />
+          <img class="back" src="../../common/images/tipbkg.png" />
           <div class="num">{{ $t("respect") }}</div>
           <div class="cons">{{ $t("login") }}</div>
           <div class="dele">
-            <img @click="showlogin = false" src="../../common/img/del.png" />
+            <img @click="showlogin = false" src="../../common/images/del.png" />
           </div>
         </div>
       </div>
@@ -321,35 +250,48 @@ export default {
           label: this.$t("granddep"),
           num: 0,
           percent: 0,
-          total: 1500,
+          total: 2023,
         },
         {
           label: this.$t("getmeet"),
           num: 0,
           percent: 0,
-          total: 2800,
+          total: 3023,
         },
         {
           label: this.$t("opendrew"),
           num: 0,
           percent: 0,
-          total: 3500,
+          total: 3823,
         },
       ],
       table1: [
-        { label: this.$t("granddep"), task: "1,500", handsel: 10, limit: 15 },
+        {
+          label: this.$t("granddep"),
+          task: "2,023",
+          man: 1,
+          handsel: 18,
+          limit: 15,
+        },
         {
           label: this.$t("getmeet"),
-          task: "2,800",
-          handsel: 28,
-          limit: 18,
+          task: "3,023",
+          man: 1,
+          handsel: 30,
+          limit: 20,
         },
-        { label: this.$t("opendrew"), task: "3,500", handsel: 35, limit: 20 },
+        {
+          label: this.$t("opendrew"),
+          task: "3,823",
+          man: 1,
+          handsel: 35,
+          limit: 25,
+        },
       ],
       table2: [
-        { people: 3, task: 15, handsel: 38 },
-        { people: 5, task: 50, handsel: 108 },
-        { people: 8, task: 100, handsel: 188 },
+        { people: 30, handsel: 38 },
+        { people: 80, handsel: 88 },
+        { people: 180, handsel: 158 },
       ],
 
       uid: "",
@@ -407,12 +349,12 @@ export default {
       // }
 
       // 加载时显示loading
-      this.loading = this.$loading({
-        lock: true,
-        text: "Loading",
-        spinner: "el-icon-loading",
-        background: "rgba(0, 0, 0, 0.7)",
-      });
+      // this.loading = this.$loading({
+      //   lock: true,
+      //   text: "Loading",
+      //   spinner: "el-icon-loading",
+      //   background: "rgba(0, 0, 0, 0.7)",
+      // });
 
       this.getheme(uid);
       // this.getinfo(uid);
@@ -484,10 +426,10 @@ export default {
 
     // 打开领奖记录
     getRecive() {
-      if (!this.user_id) {
-        this.showlogin = true;
-        return;
-      }
+      // if (!this.user_id) {
+      //   this.showlogin = true;
+      //   return;
+      // }
       this.getinfo(this.user_id);
     },
     // 领取记录
@@ -516,19 +458,8 @@ export default {
       await cumulativeTheme({ user_id: user_id, platform_id: 10002 }).then(
         (res) => {
           if (res.code == 200) {
-            this.loading.close();
+            // this.loading.close();
             let data = res.data;
-            // let data = {};
-            // data.jl_today_number = 1;
-            // data.ai_today_number = 2;
-            // data.ae_today_number = 3;
-            // data.delock_count = 2;
-            // data.unlock_count = 2;
-            // data.notlock_count = 4;
-
-            // data.lottery_money = 8973.88;
-            // data.amount_total = 56543.9;
-            // data.plus_lottery_money = 8459.2;
             this.activityContent = data;
             let reslist = [
               {
@@ -536,21 +467,21 @@ export default {
                 num: data.jl_today_number,
                 percent: data.wire_valid_bet_amount,
                 // percent: 2987.0,
-                total: 1500,
+                total: 2023,
               },
               {
                 label: this.$t("getmeet"),
                 num: data.ai_today_number,
                 percent: data.sport_valid_bet_amount,
                 // percent: 2345.1,
-                total: 2800,
+                total: 3023,
               },
               {
                 label: this.$t("opendrew"),
                 num: data.ae_today_number,
                 percent: data.really_valid_bet_amount,
                 // percent: 2864.98,
-                total: 3500,
+                total: 3823,
               },
             ];
             this.cersivelist = reslist;
@@ -578,9 +509,7 @@ export default {
             this.imglist = list;
             this.$set(this.imglist, 0, list[0]);
           } else {
-            this.loading.close();
-            // this.$message({ type: "warning", message: res.msg });
-            this.showlogin = true;
+            // this.loading.close();
           }
         }
       );
@@ -648,33 +577,23 @@ r2(val){
     height:auto;
     display:flex;
   }
-  .activity_content{
+  .bkg{
+    background:#fff6df;
     width:100vw;
-    // height:r2(1785);
-    background-image: linear-gradient(to bottom, #fffbf1, #fff6df);
+    height:r2(3230);
+    background-image:url('../../common/images/bkg.jpg');
+    background-repeat:no-repeat;
+    background-size:cover;
+    // display:flex;
+  }
+  .activity_content{
+    width:r2(1260);
+    height:r2(1476);
+    background:rgba(92,0,0,0.3);
+    margin:0 auto
+    margin-top:r2(40)
     position:relative;
-    .pos1{
-      position:absolute;
-      left:0;
-      top:r2(700);
-      width:r2(292);
-      height:r2(343);
-    }
-    .pos2{
-      position:absolute;
-      right:0;
-      top:r2(10);
-      width:r2(276);
-      height:r2(518);
-    }
-    .pos3{
-      position:absolute;
-      left:0;
-      top:r2(10);
-      width:r2(276);
-      height:r2(518);
-      transform:rotateY(180deg)
-    }
+
     .all_box{
       width:r2(1200);
       margin:0 auto;
@@ -682,93 +601,66 @@ r2(val){
     .title{
       display:flex;
       justify-content:center;
-      padding-top:r2(60)
+      padding-top:r2(10)
       img{
-        width:r2(84.9);
-        height:r2(43);
-      }
-      div{
-        font-size: r2(42);
-        font-weight: 500;
-        color: #690a0a;
-        margin:0 r2(15);
-      }
-    }
-    .rowinfo{
-      display:flex;
-      justify-content:space-between;
-      margin-top:r2(80);
-      .row_one{
-        width:33.3%
-        text-align:center;
-        color: #7e0000;
-        div{
-          font-size:r2(30)
-          margin-bottom:r2(20)
-        }
-        p{
-          font-size:r2(20)
-        }
-      }
-    }
-
-    .tips1{
-      font-size: r2(24);
-      color: #7e0000;
-      margin-top:r2(40)
-      display:flex;
-      .actcon{
-        width:r2(500)
+        width:r2(702);
+        height:r2(205);
       }
     }
 
     .box_table{
-      margin-top:r2(80);
+      margin-top:r2(30);
+      margin-bottom:r2(70);
       .til{
-        font-size: r2(22);
-        color: #7e0000;
-        line-height:r2(28)
+        font-size: r2(20);
+        color: #ffeba1;
+        line-height:r2(30)
       }
       .table{
-        background:#e1544a;
         margin:r2(15) 0;
         .header{
           display:flex;
           justify-content space-between
           height:r2(80);
           line-height:r2(80);
+          background:#f98b82
+          color:#8b1128
+          border-top-right-radius:r2(12)
+          border-top-left-radius:r2(12)
           div{
-            width:25%;
+            width:20%;
             text-align:center;
-            color:#fff;
             font-size:r2(24);
-            border-right:r2(1) solid #ffeb8b;
+            border-right:r2(1) solid #eaa35e;
+          }
+          div:last-child{
+            border-right:0
           }
         }
-        .headertwo{
-          div{
-            width:33.3%
-          }
-        }
+
         .body{
           display:flex;
           justify-content space-between
           height:r2(80);
           // padding:r2(10) 0
           line-height:r2(80);
-          border-top:r2(1) solid #ffeb8b;
+          border-top:r2(1) solid #eaa35e;
+          background:#fff0cb;
           div{
             width:25%;
             text-align:center;
-            color:#ffeb8b;;
+            color:#b11e14;
             font-size:r2(18);
-            border-right:r2(1) solid #ffeb8b;
+            border-right:r2(1) solid #eaa35e;
             // padding:r2(10) 0
+          }
+          div:last-child{
+            border-right:0
           }
           .exceed{
             // height:r2(66);
             line-height: r2(30);
-            padding-top:r2(7)
+            padding-top:r2(10)
           }
           .ex0{
             line-height:r2(80);
@@ -779,14 +671,23 @@ r2(val){
             padding-top:0
           }
         }
+        .body:nth-child(4){
+          border-bottom-right-radius:r2(12)
+          border-bottom-left-radius:r2(12)
+        }
+        .headertwo{
+          div{
+            width:50%
+          }
+        }
         .bodytwo{
           div{
-            width:33.3%
+            width:50%
           }
         }
       }
       .til2{
-        color: #000;
+        color: #fff;
         font-size:r2(20)
         // background:#fff;
         // padding:r2(10) r2(5);
@@ -794,284 +695,43 @@ r2(val){
       }
     }
     .desc{
-      margin-top:r2(60)
-      color: #690a0a;
+      // margin-top:r2(60)
+      color: #ebcd78;
       font-size:r2(20);
       line-height:r2(40)
     }
+  }
 
-.fenge{
-  height:r2(380)
-}
-    .bottom_img{
-      width:100vw;
-      height:auto;
-      position:absolute;
-      bottom:0
-      left:0
-    }
-    .topbox{
-      width:100vw;
-      display:flex;
-      justify-content:center;
-    }
+  .topbox{
+    width:100vw;
+    display:flex;
+    justify-content:center;
+    margin-top:r2(40)
     .gotop{
-      position:absolute;
-       margin: auto;
-       bottom:r2(230)
+      margin: auto;
+      bottom:r2(230)
       width: r2(280);
       height: r2(66);
       line-height: r2(66);
       text-align:center;
-      color:#fff;
+      color:#af1c12;
       font-size:r2(24)
       border-radius: r2(8);
-      background-image: linear-gradient(to bottom, #fe5c5c, #d82c2c), linear-gradient(to bottom, #d8d8d8, #d8d8d8);
+      background-image: linear-gradient(to bottom, #ff8839, #ffd359), linear-gradient(to bottom, #d8d8d8, #d8d8d8);
     }
   }
-  .center_box{
-    background:#fff6df;
-    width:100vw;
-    height:r2(1087);
-    background-image:url('../../common/img/bj-2@2x.png');
-    background-repeat:no-repeat;
-    background-size:cover;
-    // display:flex;
-    .people_box{
-      width:r2(1200);
-      margin:0 auto;
-      align-self:center;
-      vertical-align:middle;
-      display:flex;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      padding-top:r2(70);
-      .one_box{
-        width:r2(284.2)
-        height:r2(332.1);
-        position:relative;
-        margin-bottom:r(50);
-        .woman{
-          width:r2(284);
-          height:auto;
-        }
-        .follow{
-          position:absolute;
-          top:0;
-          left:0;
-          width:r2(90.4)
-          height:r2(61)
-        }
-        .model{
-          position:absolute;
-          width:100%;
-          height:100%;
-          top:0;
-          left:0;
-          background:rgba(0,0,0,0.5)
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          .unlock{
-            width:100%;
-            div{
-              width: r2(138);
-              height: r2(44);
-              line-height: r2(44);
-              border-radius: r2(4);
-              box-shadow: 0 r2(2) r2(6) 0 rgba(119, 0, 0, 0.5);
-              border: solid r2(1) #ffd599;
-              background-image: linear-gradient(to bottom, #fe5c5c, #d82c2c);
-              font-size:r2(26);
-              color: #ffeeba;
-              text-align:center;
-              margin:0 auto;
-            }
-            p{
-              text-align:center;
-              font-size:r2(36);
-              color:#fff;
-            }
-          }
-        }
-      }
-    }
-    .total_price{
-      width:r2(1200);
-      margin:0 auto;
-      .row{
-          width:100%;
-          // background:#fdf0d2;
-          color:#902828;
-          font-size:r2(22);
-          display:flex;
-          justify-content:space-between;
-          padding: r2(10) r2(15);
-          margin-bottom:r2(25);
-          .left{
-            width:r2(400)
-            div{
-              margin:r2(20) 0;
-              color:#ffefb9
-            }
-          }
-          .right{
-            width:r2(710);
-            position:relative;
-            margin-right:r2(100);
-            .el-progress{
-              margin-top:r2(70);
-            }
-            .perct{
-              // margin-top:r2(-65);
-              width: r2(190);
-              height: r2(44);
-              line-height: r2(44);
-              background-color: #fbedc9;
-              color: #c53a3a;
-              text-align center;
-              position:absolute;
-              left: r2(-0);
-              top:r2(12)
-              font-size:r2(18);
-              &:after{
-                position:absolute;
-                content:'';
-                border-top:r2(10) solid #fbedc9;
-                border-left:r2(11) solid transparent;
-                border-right:r2(11) solid transparent;
-                left:r2(75);
-                bottom: r2(-10);
-              }
-            }
-            .total{
-              width:r2(188);
-              height:r2(44);
-              line-height:r2(44);
-              text-align:center;
-              border:r2(1) solid #ffd569;
-              color:#ffe78b;
-              // background: #fcdec2;
-              font-size:r2(20);
-              position:absolute;
-              right:r2(-90);
-              top:r2(12);
 
-              &:before{
-                position:absolute;
-                content:'';
-                border-top:r2(10) solid #ffe78b;
-                border-left:r2(11) solid transparent;
-                border-right:r2(11) solid transparent;
-                left:r2(80);
-                bottom: r2(-10);
-              }
-              &:after{
-                position:absolute;
-                content:'';
-                border-top:r2(8) solid #c53a3a;
-                border-left:r2(8) solid transparent;
-                border-right:r2(8) solid transparent;
-                left:r2(83.3);
-                bottom: r2(-8);
-              }
-            }
-            /deep/ .el-progress-bar__outer{
-              position:relative;
-              // overflow:none !important;
-              background:#fbedc9 !important;
-              border:r2(1) solid #f89797;
-            }
-            /deep/ .el-progress-bar__innerText{
-              margin-top:r2(-65);
-              width: r2(160);
-              height: r2(44);
-              line-height: r2(44);
-              background-color: #fbedc9;
-              color: #c53a3a;
-              text-align center;
-              position:absolute;
-              margin-left: r2(-80);
-              font-size:r2(18);
-              &:after{
-                position:absolute;
-                content:'';
-                border-top:r2(10) solid #fbedc9;
-                border-left:r2(11) solid transparent;
-                border-right:r2(11) solid transparent;
-                left:r2(75);
-                bottom: r2(-10);
-              }
-            }
-          }
-      }
-    }
-
-    .center_bot{
-      display:flex;
-      width:r2(1200);
-      margin:0 auto;
-      .raise{
-        width: r2(429);
-        height: r2(61);
-        line-height: r2(61);
-        text-align:center;
-        color: #c53a3a;
-        // margin: r2(53) 125.9px 2px 18.2px;
-        // padding: 16px 129px 17px 42px;
-        border-radius: r2(31);
-        box-shadow: 0 r2(2) r2(7) 0 rgba(84, 0, 0, 0.5);
-        border: solid r2(1) #c71616;
-        background-image: linear-gradient(92deg, #fdf7e6 2%, #e6cc8a 97%);
-      }
-      .btn{
-        // position:relative;
-        width:r2(260);
-        height:r2(66);
-        line-height:r2(66);
-        background-image:url('../../common/img/3@2x.png');
-        background-repeat:no-repeat;
-        background-size:cover;
-        text-align center
-        color: #7e0000;
-        font-size:r2(30)
-        margin-left:r2(100);
-      }
-    }
-  }
   .receive{
     width:100vw;
     // height:r2(1004);
-    background-image: linear-gradient(to bottom, #fffbf1, #fff6df);
+    // background-image: linear-gradient(to bottom, #fffbf1, #fff6df);
     position:relative;
-    padding-top:r2(70)
-    .pos1{
-      position:absolute;
-      left:0;
-      bottom:r2(10);
-      width:r2(292);
-      height:r2(343);
-    }
-    .pos2{
-      position:absolute;
-      right:0;
-      top:r2(10);
-      width:r2(248);
-      height:r2(443);
-    }
-    .pos3{
-      position:absolute;
-      left:0;
-      top:r2(10);
-      width:r2(248);
-      height:r2(443);
-      transform:rotateY(180deg)
-    }
+    margin-top:r2(-30)
     .top_content{
       width:r2(1200);
-      height:r2(166);
+      height:r2(165);
       margin:0 auto;
-      background-image:url('../../common/img/invalid-name.png');
+      background-image:url('../../common/images/4@2x.png');
       background-repeat:no-repeat;
       background-size:cover;
       display:flex;
@@ -1079,13 +739,13 @@ r2(val){
       .row_one{
         // display:flex;
         text-align:center;
-        color: #7e0000;
+        color: #8b1128;
         width:33.3%
-        color:rgb(246 232 194)
         margin-top:r2(45)
         div{
           font-size:r2(30)
           margin-bottom:r2(20)
+          font-weight:550;
         }
         p{
           font-size:r2(20)
@@ -1094,179 +754,257 @@ r2(val){
         }
       }
   }
-      .rece_box{
-        width:r2(1200);
+
+  .per_box{
+    background:rgba(92,0,0,0.3);
+    width:r2(1260);
+    height:r2(1261);
+    margin: 0 auto;
+    margin-top:r2(80)
+    .perimg{
+      width:r2(1172);
+      height:r2(149);
+      margin-left:r2(44)
+    }
+    .rece_box{
+      width:r2(1200);
+      height:r2(1111)
+      margin:0 auto;
+      background-image:url('../../common/images/center_bkg.png');
+      background-repeat:no-repeat;
+      background-size:cover;
+      // display:flex;
+      // align-self:center;
+      // vertical-align:middle
+      margin-top:r2(-55)
+      .title{
+        padding-top:r2(50);
+        position:relative;
+        width:r2(340);
         margin:0 auto;
-        // display:flex;
-        align-self:center;
-        vertical-align:middle
-        .title{
-          padding-top:r2(60);
-          position:relative;
-          width:r2(340);
-          margin:0 auto;
-          margin-bottom:r2(40);
-          img{
-            width:100%;
-            height:auto;
-          }
-          div{
-            width:100%;
-            height:r2(80);
-            text-align:center;
-            line-height:r2(85);
-            font-size:r2(30);
-            color:#f6e8c2;
-            position:absolute;
-            left:0;
-            top:r2(60)
-          }
-        }
-        .row{
+        margin-bottom:r2(35);
+        img{
           width:100%;
-          background:#fdf0d2;
-          color:#902828;
-          font-size:r2(22);
-          display:flex;
-          justify-content:space-between;
-          padding: r2(10) r2(15);
-          margin-bottom:r2(25);
-          .left{
-            width:r2(400)
-            div{
-              margin:r2(20) 0;
-            }
-          }
-          .right{
-            width:r2(710);
-            position:relative;
-            margin-right:r2(100);
-            margin-left:r2(20)
-            .el-progress{
-              margin-top:r2(70);
-            }
-
-            .perc{
-              width: r2(190);
-              height: r2(44);
-              line-height: r2(44);
-              background-color: #c53a3a;
-              color: #ffea81;
-              text-align center;
-              position:absolute;
-              left: r2(0);
-              font-size:r2(18);
-              top:r2(12);
-              &:after{
-                position:absolute;
-                content:'';
-                border-top:r2(10) solid #c53a3a;
-                border-left:r2(11) solid transparent;
-                border-right:r2(11) solid transparent;
-                left:r2(75);
-                bottom: r2(-10);
-              }
-            }
-            .total{
-              width:r2(188);
-              height:r2(44);
-              line-height:r2(44);
-              text-align:center;
-              border:r2(1) solid #c53a3a;
-              color:#c53a3a;
-              background: #fcdec2;
-              font-size:r2(20);
-              position:absolute;
-              right:r2(-90);
-              top:r2(12);
-
-              &:before{
-                position:absolute;
-                content:'';
-                border-top:r2(10) solid #c53a3a;
-                border-left:r2(11) solid transparent;
-                border-right:r2(11) solid transparent;
-                left:r2(80);
-                bottom: r2(-10);
-              }
-              &:after{
-                position:absolute;
-                content:'';
-                border-top:r2(8) solid #fcdec2;
-                border-left:r2(8) solid transparent;
-                border-right:r2(8) solid transparent;
-                left:r2(83);
-                bottom: r2(-8);
-              }
-            }
-            /deep/ .el-progress-bar__outer{
-              position:relative;
-              // overflow:none !important;
-              background:#fbedc9 !important;
-              border:r2(1) solid #f89797;
-            }
-            /deep/ .el-progress-bar__innerText{
-              margin-top:r2(-65);
-              width: r2(160);
-              height: r2(44);
-              line-height: r2(44);
-              background-color: #c53a3a;
-              color: #ffea81;
-              text-align center;
-              position:absolute;
-              margin-left: r2(-80);
-              font-size:r2(18);
-              &:after{
-                position:absolute;
-                content:'';
-                border-top:r2(10) solid #c53a3a;
-                border-left:r2(11) solid transparent;
-                border-right:r2(11) solid transparent;
-                left:r2(75);
-                bottom: r2(-10);
-              }
-            }
-          }
+          height:auto;
         }
-        .grand{
-          display:flex;
-          justify-content:space-between;
-          margin-top:r2(40);
-          .all{
-            font-size:r2(30);
-            color: #ce0000;
-            line-height:r2(66);
-            span{
-              margin-left:r2(20)
-            }
-          }
-          .btn{
-            position:relative;
-            width:r2(228);
-            height:r2(66);
-            img{
-              width:r2(228);
-              height:auto;
-            }
-            div{
-              position:absolute;
-              top:0;
-              left:0;
-              font-size:r2(30);
-              color: #f6e8c2;
-              width:r2(228);
-              height:r2(66);
-              line-height:r2(66);
-              text-align:center;
-            }
-          }
-        }
-
-        .fenge{
+        div{
           width:100%;
-          height:r2(50)
+          height:r2(80);
+          text-align:center;
+          line-height:r2(85);
+          font-size:r2(30);
+          color:#f6e8c2;
+          position:absolute;
+          left:0;
+          top:r2(50)
         }
       }
+      .row{
+        width:100%;
+        height:r2(93)
+        background:#ffe4a2;
+        color:#902828;
+        font-size:r2(22);
+        display:flex;
+        justify-content:space-between;
+        padding: r2(10) r2(15);
+        margin-bottom:r2(25);
+        .left{
+          width:r2(400)
+          .plat{
+            margin-top:r2(5)
+            margin-bottom:r2(20);
+          }
+        }
+        .right{
+          width:r2(640);
+          position:relative;
+          margin-right:r2(100);
+          margin-left:r2(40)
+          .el-progress{
+            margin-top:r2(55);
+          }
+          .perc{
+            width: r2(190);
+            height: r2(44);
+            line-height: r2(44);
+            background-color: #c53a3a;
+            color: #ffea81;
+            text-align center;
+            position:absolute;
+            left: r2(0);
+            font-size:r2(18);
+            top:r2(-2);
+            &:after{
+              position:absolute;
+              content:'';
+              border-top:r2(10) solid #c53a3a;
+              border-left:r2(11) solid transparent;
+              border-right:r2(11) solid transparent;
+              left:r2(75);
+              bottom: r2(-10);
+            }
+          }
+          .total{
+            width:r2(188);
+            height:r2(44);
+            line-height:r2(44);
+            text-align:center;
+            border:r2(1) solid #c53a3a;
+            color:#c53a3a;
+            background: #fcdec2;
+            font-size:r2(20);
+            position:absolute;
+            right:r2(-90);
+            top:r2(-2);
+
+            &:before{
+              position:absolute;
+              content:'';
+              border-top:r2(10) solid #c53a3a;
+              border-left:r2(11) solid transparent;
+              border-right:r2(11) solid transparent;
+              left:r2(80);
+              bottom: r2(-10);
+            }
+            &:after{
+              position:absolute;
+              content:'';
+              border-top:r2(8) solid #fcdec2;
+              border-left:r2(8) solid transparent;
+              border-right:r2(8) solid transparent;
+              left:r2(83);
+              bottom: r2(-8);
+            }
+          }
+          /deep/ .el-progress-bar__outer{
+            position:relative;
+            // overflow:none !important;
+            background:#fbedc9 !important;
+            border:r2(1) solid #f89797;
+          }
+          /deep/ .el-progress-bar__innerText{
+            margin-top:r2(-65);
+            width: r2(160);
+            height: r2(44);
+            line-height: r2(44);
+            background-color: #c53a3a;
+            color: #ffea81;
+            text-align center;
+            position:absolute;
+            margin-left: r2(-80);
+            font-size:r2(18);
+            &:after{
+              position:absolute;
+              content:'';
+              border-top:r2(10) solid #c53a3a;
+              border-left:r2(11) solid transparent;
+              border-right:r2(11) solid transparent;
+              left:r2(75);
+              bottom: r2(-10);
+            }
+          }
+        }
+      }
+      .grand_box{
+        width:100%
+        display:flex;
+        justify-content:flex-end;
+        .grand{
+          width:r2(640);
+          margin-top:r2(42);
+          .all{
+            font-size:r2(36);
+            color: #875d5d;
+            margin-bottom:r2(60)
+            .price{
+              font-size:r2(50);
+              color:#dc2210;
+              font-weight:600
+              margin:0 r2(10)
+            }
+          }
+          .envep_box{
+            display:flex;
+            justify-content:space-between;
+            margin-right:r2(50)
+            .reun{
+              font-size:r2(20);
+              color:#875d5d;
+              line-height:r2(38)
+              span{
+                color:#ff2323;
+              }
+            }
+            .btn{
+              position:relative;
+              width:r2(228);
+              height:r2(66);
+              img{
+                width:r2(228);
+                height:auto;
+              }
+              div{
+                position:absolute;
+                top:0;
+                left:0;
+                font-size:r2(30);
+                color: #f6e8c2;
+                width:r2(228);
+                height:r2(66);
+                line-height:r2(68);
+                text-align:center;
+              }
+            }
+          }
+          .leov{
+            font-size:r2(20);
+            color:#875d5d;
+            line-height:r2(38)
+            margin-left:r2(20)
+            margin-top:r2(55)
+            span{
+              color:#ff2323;
+            }
+          }
+          .new{
+            margin-top:r2(55)
+          }
+          .newyearenv{
+            height:r2(55)
+            line-height:r2(55)
+            padding:0 r2(30)
+            margin-right:r2(30)
+            display:flex;
+            justify-content:space-between;
+            border-radius: r2(6);
+            border: solid r2(1) #e2ca8d;
+            color:#fff;
+            background-image: linear-gradient(to top, #ff8839, #ff6859 95%);
+            .accum{
+              font-size:r2(18);
+              // margin-top:r2(-3)
+              vertical-align: middle;
+              span{
+                font-size:r2(35)
+                font-weight:bold;
+                margin:0 r2(8)
+                vertical-align: middle;
+              }
+            }
+            .getd{
+              font-size:r2(20)
+              text-decoration:underline;
+            }
+          }
+        }
+      }
+      .fenge{
+        width:100%;
+        height:r2(50)
+      }
+      }
+    }
   }
 
 }
@@ -1298,7 +1036,7 @@ r2(val){
     height:r2(60);
     line-height:r2(60)
     color:#fff;
-    background:#e1544a;
+    background:#cb2221;
     font-size:r2(15)
     text-align:center;
   }
