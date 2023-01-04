@@ -61,7 +61,7 @@
               <div class="all">
                 {{ $t("force") }}:<span class="price">{{
                   format_with_substring(
-                    parseFloat(activityContent.total_number).toFixed(3)
+                    parseFloat(activityContent.deposit).toFixed(3)
                   )
                 }}</span>
                 VNDK
@@ -70,10 +70,13 @@
                 <div class="reun">
                   <div class="right_box">
                     <div>
-                      {{ $t("reunion") }} <span>34</span> {{ $t("desk") }}
+                      {{ $t("reunion") }}
+                      <span>{{ activityContent.feast_count }}</span>
+                      {{ $t("desk") }}
                     </div>
                     <div>
-                      {{ $t("invitefriend") }} <span>12</span>
+                      {{ $t("invitefriend") }}
+                      <span>{{ activityContent.user_count }}</span>
                       {{ $t("person") }}
                     </div>
                   </div>
@@ -85,17 +88,36 @@
               </div>
               <div class="newyearenv new">
                 <div class="accum">
-                  {{ $t("envelope") }}:<span>333,456</span>VNDK
+                  {{ $t("envelope") }}:
+                  <div>
+                    {{
+                      format_with_substring(
+                        parseFloat(activityContent.red_envelope).toFixed(3)
+                      )
+                    }}
+                  </div>
+                  VNDK
                 </div>
-                <div class="getd">{{ $t("clickdraw") }}</div>
+                <div class="getd" @click="getnewred">{{ $t("clickdraw") }}</div>
               </div>
 
               <div class="leov">
-                {{ $t("accfriend") }} <span>34</span> {{ $t("person") }}
+                {{ $t("accfriend") }}
+                <span>{{ activityContent.user_total }}</span> {{ $t("person") }}
               </div>
               <div class="newyearenv">
                 <div class="accum">
-                  {{ $t("addit") }}:<span>333,456</span>VNDK
+                  {{ $t("addit") }}:
+                  <div>
+                    {{
+                      format_with_substring(
+                        parseFloat(activityContent.extra_red_envelope).toFixed(
+                          3
+                        )
+                      )
+                    }}
+                  </div>
+                  VNDK
                 </div>
                 <div class="getd">{{ $t("clickdraw") }}</div>
               </div>
@@ -238,7 +260,14 @@ Vue.use(Progress)
   .use(Loading);
 import { _debounce } from "@/utils";
 
-import { getReceiveList, cumulativeTheme, getMoneyAdd, getunlock } from "@/api";
+import {
+  getReceiveList,
+  cumulativeTheme,
+  getMoneyAdd,
+  getnewyearRed,
+  getextraRed,
+  getbetprogress,
+} from "@/api";
 export default {
   components: {
     Progress: Progress,
@@ -301,7 +330,7 @@ export default {
         { people: 180, handsel: 158 },
       ],
 
-      uid: "",
+      uid: 1,
       platform: "",
       lang: "vi",
 
@@ -316,12 +345,13 @@ export default {
         { img: require("../../common/imgs/8@2x.png"), type: 3 },
       ],
       activityContent: {
-        total_number: 0,
-        lottery_money: 0,
-        amount_total: 0,
-        plus_lottery_money: 0,
+        deposit: 0,
+        feast_count: 0,
+        user_count: 0,
+        red_envelope: 0,
+        user_total: 0,
+        extra_red_envelope: 0,
       },
-      user_id: 100336,
 
       loading: "",
     };
@@ -348,7 +378,7 @@ export default {
       if (isbro == "pc") {
         this.$router.replace(`/newyear_pc?uid=${uid}`);
       }
-      this.user_id = uid;
+      this.uid = uid;
 
       // if (lang) {
       //   this.lang = lang;
@@ -364,10 +394,6 @@ export default {
       // });
 
       this.getheme(uid);
-      // this.getinfo(uid);
-      setTimeout(() => {
-        this.getheme(uid);
-      }, 1000);
     }
   },
   methods: {
@@ -375,52 +401,52 @@ export default {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     },
-    // 解锁
-    async deblock() {
-      if (!this.user_id) {
-        this.showlogin = true;
-        return;
-      }
-      await getunlock({ user_id: this.user_id }).then((res) => {
+    // 获取个人数据
+    async getheme(user) {
+      await cumulativeTheme({ user: user }).then((res) => {
         if (res.code == 200) {
-          this.getheme(this.user_id);
-          this.$message({ type: "success", message: this.$t("unlocks") });
+          // this.loading.close();
+          let data = res.data;
+          this.activityContent = data;
         } else {
-          this.$message({ type: "warning", message: res.msg });
+          // this.loading.close();
         }
       });
     },
-    // 领取彩金
+
+    // 打开领奖记录
+    async getRecive() {
+      if (!this.uid) {
+        this.showlogin = true;
+        return;
+      }
+      await getReceiveList({
+        user: this.uid,
+      }).then((res) => {
+        this.listdata = res.data.list;
+        this.dialogVisible = true;
+      });
+    },
+
+    // 抽红包雨
     getcollet: _debounce(function(type) {
       this.checkcollet(type);
     }, 500),
 
     async checkcollet(type) {
-      if (!this.user_id) {
+      if (!this.uid) {
         this.showlogin = true;
         return;
       }
-      let {
-        lottery_money,
-        total_number,
-        plus_lottery_money,
-      } = this.activityContent;
-      let money = type == 1 ? lottery_money : plus_lottery_money;
-      if (!Number(money)) {
-        this.$message({ type: "warning", message: this.$t("noerr") });
-        return;
-      }
+
       let params = {
-        user_id: this.user_id,
-        lottery_amount: type == 1 ? lottery_money : plus_lottery_money,
-        lottery_type: type == 1 ? "theme_one" : "theme_two",
-        finish_count: total_number,
+        user: this.uid,
       };
       await getMoneyAdd(params).then((res) => {
         if (res.code == 200) {
           this.darwdialog = true;
           this.money = money;
-          this.getheme(this.user_id);
+          this.getheme(this.uid);
         } else {
           this.$message({ type: "warning", message: res.msg });
         }
@@ -429,94 +455,6 @@ export default {
     // 关闭弹窗
     cancelmodel() {
       this.dialogVisible = false;
-    },
-
-    // 打开领奖记录
-    getRecive() {
-      if (!this.user_id) {
-        this.showlogin = true;
-        return;
-      }
-      this.getinfo(this.user_id);
-    },
-    // 领取记录
-    async getinfo(uid) {
-      await getReceiveList({
-        user_id: uid,
-        page_size: 9999,
-      }).then((res) => {
-        this.listdata = res.data.list;
-        this.dialogVisible = true;
-      });
-    },
-
-    // 主题
-    async getheme(user_id) {
-      let list = [
-        { img: require("../../common/imgs/1@2x.png") },
-        { img: require("../../common/imgs/2@2x.png") },
-        { img: require("../../common/imgs/3@2x.png") },
-        { img: require("../../common/imgs/4@2x.png") },
-        { img: require("../../common/imgs/5@2x.png") },
-        { img: require("../../common/imgs/6@2x.png") },
-        { img: require("../../common/imgs/7@2x.png") },
-        { img: require("../../common/imgs/8@2x.png") },
-      ];
-      await cumulativeTheme({ user_id: user_id, platform_id: 10002 }).then(
-        (res) => {
-          if (res.code == 200) {
-            // this.loading.close();
-            let data = res.data;
-            this.activityContent = data;
-            let reslist = [
-              {
-                label: this.$t("granddep"),
-                num: data.jl_today_number,
-                percent: data.wire_valid_bet_amount,
-                // percent: 2987.0,
-                total: 1500,
-              },
-              {
-                label: this.$t("getmeet"),
-                num: data.ai_today_number,
-                percent: data.sport_valid_bet_amount,
-                // percent: 2345.1,
-                total: 2800,
-              },
-              {
-                label: this.$t("opendrew"),
-                num: data.ae_today_number,
-                percent: data.really_valid_bet_amount,
-                // percent: 2864.98,
-                total: 3500,
-              },
-            ];
-            this.cersivelist = reslist;
-            this.$set(this.cersivelist, 0, reslist[0]);
-            this.$set(this.cersivelist, 1, reslist[1]);
-            this.$set(this.cersivelist, 2, reslist[2]);
-
-            let delock_count = data.delock_count; //已解锁
-            let unlock_count = data.unlock_count; //可解锁
-            let notlock_count = data.notlock_count; //未解锁
-
-            list.forEach((item, i) => {
-              let idx = i + 1;
-              item.type = 3;
-              if (idx <= delock_count) {
-                item.type = 1;
-              }
-              if (idx > delock_count && idx <= unlock_count + delock_count) {
-                item.type = 2;
-              }
-            });
-            this.imglist = list;
-            this.$set(this.imglist, 0, list[0]);
-          } else {
-            // this.loading.close();
-          }
-        }
-      );
     },
 
     judgeBrowser() {
@@ -878,13 +816,15 @@ r2(val){
             background-image: linear-gradient(to top, #ff8839, #ff6859 95%);
             .accum{
               font-size:r(11);
-              // margin-top:r2(-3)
-              vertical-align: middle;
-              span{
+              display:flex
+              // margin-top:r(-3)
+              // vertical-align: middle;
+              div{
                 font-size:r(17.5)
                 font-weight:bold;
                 margin:0 r(4)
                 vertical-align: middle;
+                margin-top:r(-1)
               }
             }
             .getd{
